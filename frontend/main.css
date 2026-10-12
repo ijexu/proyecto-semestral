@@ -16,6 +16,7 @@ body{
 }
 
 .mainmenubutton{
+color: #f2e5ba;
 margin-top: 10px;
 font-size: 30px;
 width: 40px;
@@ -25,6 +26,8 @@ padding-bottom: 5px;
 border-radius: 15px;
 align-items: center;
 justify-content: center;
+background-color: #572556;
+border-color: #F0C32C;
 }
 
 .mainbox2 button{
@@ -55,5 +58,21 @@ justify-content: center;
     background-repeat: repeat;
     background-size: cover;
 }
+
+.menucontent{
+    position: relative;
+    margin: 5px;
+    background-color: #572556;
+    border-radius: 15px;
+    border-color:#F0C32C;
+    padding: 5px;
+    color: #f2e5ba;
+}
+
+.closemenubutton{
+    position: absolute;
+    cursor: pointer;
+}
+
 
 
