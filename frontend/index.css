@@ -1,0 +1,67 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.loginbox{
+    display: flex;
+    flex-direction: row;
+    background-image: url("images/backgroundlogin.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.rightloginbox{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+}
+.leftloginbox{
+    flex: 1;
+}
+input {
+    width: 400px;
+    height: 60px;
+    border-radius: 10px;
+    border-color: white;
+    margin: 10px;
+}
+::placeholder{
+    color: black;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+button{
+    border-color: #E99415;
+    font-family: sans-serif;
+    font-size: 25px;
+    background-color: #E99415;
+    border-radius: 10px;
+    width: 400px;
+    height: 60px;
+    margin: 10px;
+}
+.registerbutton{
+    margin-top: auto;
+    margin: 10px;
+}
+
+.rightloginbox form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.space {
+    height: 135px;
+}
+
+.tittle{
+    margin-top: 30px;
+}
+.registerbuttonv2{
+border-radius: 12px;
+}

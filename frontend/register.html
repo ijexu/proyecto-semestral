@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <link rel="stylesheet" href="register.css">
+    </head>
+
+    <body>
+    <div class="registerbox">
+        <div class="leftregisterbox">
+            <h1 class="tittle" style="color: aliceblue; font-family: sans-serif; font-size: 40px;"> CREA UNA NUEVA CUENTA</h1>
+            <form action="main.html">
+                <div class="box1">
+                    <fieldset> 
+                        <legend> Nombre </legend>
+                    <label for="name"></label>
+                    <input type="text" id="name" name="name" placeholder="Nombre">
+                    <label for="lastname"></label>
+                    <input type="text" id="lastname" name="lastname" placeholder="Apellido">
+                    </fieldset>
+                </div>
+                <label for="birthdate"> Fecha de nacimiento</label>
+                <input type="date" name="birthdate" id="birthdate" placeholder="d&iacute;a/ mes/ a&ntilde;o">
+                <label for="email">Correo electronico</label>
+                <input type="email" name="email" id="email" placeholder="user@example.com">
+                <label for="password"> Contrase&ntilde;a</label>
+                <input type="password" name="password" id="password" placeholder="********">
+
+                <button type="submit" class="registerbutton"> Crear cuenta</button>
+            </form>
+            <div class="space">
+            </div>
+            <div class="box2">
+                <h2 style="margin-top: 0; margin-right: 10px; font-size: 15px; color: rgb(255, 248, 190); font-family: sans-serif;"> ¿Ya tienes una cuenta?</h2>
+                <a href="index.html" class="backtologin" style="font-size: 15px; color: #E99415; font-family: sans-serif;"> Inicia sesi&oacute;n </a>
+            </div>
+        </div>
+        <div class="rightregisterbox">
+        </div>
+    </div>    
+    </body>
+</html>
