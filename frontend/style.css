@@ -223,7 +223,6 @@ color: #FF8B8B;
   position: sticky;
   top: 0;
   height: 100vh;
-  align-items: flex-start;
   background-color: #820000;
 }
 
@@ -234,12 +233,13 @@ color: #FF8B8B;
 
 .buttons-menu button{
   border-radius: 0;
-  border: 0 solid;
+  border: 0;
   width: 200px;
   height: 50px;
   min-height: 30px;
   background-color: #820000;
   color: azure;
+  font-family: sans-serif;
   font-weight: bold;
   font-size: 20px;
 }
@@ -250,6 +250,8 @@ color: #FF8B8B;
   margin-top: auto;
   color: aliceblue;
   font-weight: bold;
+  padding: 1rem;
+  text-align: center;
 }
 
 .oculto{
