@@ -1,1 +1,10 @@
 Enseñame como hacer un script que me permita fijar una edad minima
+----------------------------------------------------------------------------------------
+promt usado en register.html para evitar que menores de edad se registren a la pagina
+.
+.
+Enseñame como hacer sesiones dinamicas en html
+----------------------------------------------------------------------------------------
+prompt usado para realizar configuration.html
+.
+.
