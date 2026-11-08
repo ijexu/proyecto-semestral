@@ -1,0 +1,257 @@
+:root{
+  --BP: #FFDEDE /*BACKGROUND PANEL COLOR*/
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+body {
+  font-family:sans-serif;
+  color: #820000;
+  background-image: url(images/backgroundcasinoff.png);
+}
+
+/*------------------------ INDEX -----------------------------*/
+/*-----------------------------------------------------------*/
+ 
+.pagina {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  min-height: 100vh;
+}
+ 
+.imagen {
+  background: white;
+}
+.imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+ 
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+ 
+.login {
+  width: 100%;
+  max-width: 320px;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background-color: var(--BP);
+  border-radius: 24px;
+}
+ 
+.login h1 {
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+ 
+.login label {
+  font-weight: 700;
+  margin-top: 8px;
+}
+ 
+.login input {
+  width: 100%;
+  height: 46px;
+  margin-top: 6.4px;
+  padding: 1.6px;
+  border: 0;
+  border-radius: 800px;
+  background: white;
+  font: inherit;
+}
+ 
+.login input:focus-visible,
+.login button:focus-visible,
+.enlace:focus-visible {
+  outline: 1px solid #820000;
+  outline-offset: 2px;
+}
+ 
+.login button {
+  align-self: center;
+  margin-top: 2rem;
+  padding: 0.6rem 1.2rem;
+  font: inherit;
+  font-weight: 700;
+  color: #820000;
+  background: transparent;
+  border: 4px solid #820000;
+  border-radius: 16px;
+}
+.login button:hover { background: rgb(255, 139, 139); }
+ 
+.seccion-enlace {
+  margin-top: auto;
+  padding-top: 32px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #820000;
+  text-decoration: none;
+}
+.enlace{
+color: #FF8B8B;
+}
+
+/* ---------- VISTA TELEFONO ---------- */
+@media (max-width: 768px) {
+  .pagina { display: block; }
+  .imagen { display: none; }
+ 
+  .panel {
+    padding: 0;
+    align-items: stretch;
+  }
+ 
+  .login {
+    max-width: none;
+    min-height: 90vh;
+    padding: 2rem 2rem 1.5rem;
+    border-radius: 0 0 24px 24px;
+  }
+ 
+  .login h1 { font-size: clamp(2rem, 9vw, 2.75rem); margin-bottom: 1.5rem; }
+  .login label { font-size: 1.5rem; margin-top: 1rem; }
+  .login input { height: 60px; }
+ 
+  .login button {
+    width: 80%;
+    font-size: 0.9rem;
+    border-width: 3px;
+    border-radius: 12px;
+    padding: 1.1rem;
+  }
+ 
+  .enlace { font-size: 2rem; }
+}
+
+/*---------------------- REGISTER ---------------------------*/
+/*-----------------------------------------------------------*/
+
+.register h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.registro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.pagina-registro {
+  width: 100%;
+  max-width: 500px;
+  min-height: 500px;
+  background-color: #FFDEDE;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+
+.register fieldset {
+  display: flex;
+  flex-direction: row;
+  gap: 0.2rem;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+}
+.register{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.register legend,
+.register label {
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.register legend { padding: 0; margin-bottom: 0.4rem; }
+
+.register input {
+  width: 100%;
+  height: 46px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: white;
+  font: inherit;
+  margin: 0.1rem;
+}
+
+.register button {
+  align-self: center;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  font: inherit;
+  font-weight: 700;
+  color: #820000;
+  background: transparent;
+  border: 4px solid #820000;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.register button:hover { background: rgb(255, 139, 139); }
+
+/*-------------------- CONFIGURATION -------------------------*/
+/*-----------------------------------------------------------*/
+
+.configuration-menu{
+  display: flex;
+  min-height: 100vh;
+}
+
+.buttons-menu{
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 200px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-items: flex-start;
+  background-color: #820000;
+}
+
+.menu-section{
+  flex: 1; /* CORRECCION HECHA POR IA, CORRIGIENDO EL WIDTH:AUTO*/
+  background-color: aqua;
+}
+
+.buttons-menu button{
+  border-radius: 0;
+  border: 0 solid;
+  width: 200px;
+  height: 50px;
+  min-height: 30px;
+  background-color: #820000;
+  color: azure;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.buttons-menu button:hover{ background-color: #FF8B8B;}
+
+.logout{
+  margin-top: auto;
+  color: aliceblue;
+  font-weight: bold;
+}
+
+.oculto{
+  display: none;
+}
