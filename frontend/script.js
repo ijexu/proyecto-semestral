@@ -30,4 +30,4 @@ botones.forEach(function (boton) {
 
         const id = boton.dataset.seccion;
         document.getElementById(id).classList.remove("oculto");
-    });;
+    });
