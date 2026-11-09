@@ -1,3 +1,5 @@
+
+
 Enseñame como hacer un script que me permita fijar una edad minima
 ----------------------------------------------------------------------------------------
 promt usado en register.html para evitar que menores de edad se registren a la pagina
@@ -8,3 +10,11 @@ Enseñame como hacer sesiones dinamicas en html
 prompt usado para realizar configuration.html
 .
 .
+Enseñame a usar LocalStorage
+-----------------------------------------------------------------------------------------
+Prompt usado para guardar datos de usuarios, especificamente cuando un usuario se registra (en register.html) y luego a posterior iniciar sesión en (index.html)
+.
+.
+Ayudame a identificar que esta mal en este codigo y el porque
+------------------------------------------------------------------------------------------
+prompt que hace uso del script de "register.js" para corregirlo y obtener retroalimentación. 

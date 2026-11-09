@@ -19,19 +19,23 @@ input.addEventListener("input", () => {
     }
     });
 
-    // ------------------------------------
+// ------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------
 
-     const formulario = document.getElementById("index-form");
 
- formulario.addEventListener("submit", function (a) {
-   a.preventDefault();
+const formulario = document.getElementById("register-form");
+
+ formulario.addEventListener("submit", function (evento) {
+   evento.preventDefault();
 
    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-   const username = document.getElementById("username").ariaValueMax.trim();
+   const username = document.getElementById("username").value.trim();
 
-   const existencia = usuarios.some(function (e) {
-      return username.usuarios === username;
+   const existencia = usuarios.some(function (usuarioGuardado) {
+      return usuarioGuardado.usuario === username;
    });
 
    if (existencia) {
@@ -41,7 +45,7 @@ input.addEventListener("input", () => {
 
    usuarios.push({
       nombre: formulario.elements["name"].value,
-      apellido: formulario.element["lastname"].value
+      apellido: formulario.elements["lastname"].value,
       usuario: username,
       correo: document.getElementById("mail").value,
       nacimiento: document.getElementById("birthdate").value,
