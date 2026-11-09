@@ -21,4 +21,12 @@ CONST, guarda una variable (constante)
 LET, guarda un valor el cual se puede modifica
 document.getElementByID("id") busca del todo el documento cierta id especifica
 
-function, creas una function
+function, creas una funcion
+
+LocalStorage || 3 comandos:
+
+- localStorage.setItem("clave", "texto"); -> guarda
+- localStorage.getItem("clave","texto"); -> lee 
+- localStorage.removeItem("clave","texto"); -> borra
+
+GUARDA TEXTO, PARA LISTAS SE CONVIERTE EN JSON

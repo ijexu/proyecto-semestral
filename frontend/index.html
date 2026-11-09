@@ -17,7 +17,7 @@
  
     <!-- FORMULARIO -->
     <section class="panel">
-      <form class="login" action="main.html" method="post">
+      <form class="login" method="post" id="index-form">
         <h1>INICIAR SESIÓN</h1>
  
         <label for="usuario">Usuario</label>
@@ -26,7 +26,7 @@
         <label for="contrasena">Contraseña</label>
         <input type="password" id="contrasena" name="contrasena" autocomplete="current-password" required>
  
-        <button type="submit">INICIAR SESIÓN</button>
+        <button type="submit" id="index-form-button" disabled>INICIAR SESIÓN</button>
  
         <section class="seccion-enlace">
         <h3> Si no tienes una cuenta </h3> <a href="register.html" class="enlace">!Registrate¡ </a>
@@ -35,6 +35,7 @@
     </section>
  
   </main>
+  <script src="index.js"></script>
 </body>
 </html>
  
