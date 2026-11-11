@@ -49,7 +49,7 @@ const formulario = document.getElementById("register-form");
       usuario: username,
       correo: document.getElementById("mail").value,
       nacimiento: document.getElementById("birthdate").value,
-      contrasena: document.getElementById("password"),
+      contrasena: document.getElementById("password").value,
       rol: "usuario"
    });
 

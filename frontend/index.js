@@ -1,18 +1,5 @@
-const { use } = require("react");
-
-const form = document.getElementById("index-form");
-const button = document.getElementById("index-form-button");
-
- form.addEventListener("input", function () {
-    button.disabled = !form.checkValidity();
- })
-
- button.disabled = !form.checkValidity();
-
- // ---------------------------------------------------------
- 
- const formulario = document.getElementsById("index-form");
- const button = document.getElementById("index-form-button");
+const formulario = document.getElementById("index-form");
+const boton = document.getElementById("index-form-button");
 
  formulario.addEventListener("input", function () {
    boton.disabled = !formulario.checkValidity();
@@ -27,7 +14,7 @@ const button = document.getElementById("index-form-button");
    const contrasena = document.getElementById("contrasena").value;
 
    const encontrado = usuarios.find(function (usuarioGuardado) {
-      return usuarioGuardado.usuario === usuario && usuarioGuardado.contrasena === contrasena:
+      return usuarioGuardado.usuario === usuario && usuarioGuardado.contrasena === contrasena;
    });
 
    if(encontrado) {

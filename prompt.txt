@@ -18,3 +18,12 @@ Prompt usado para guardar datos de usuarios, especificamente cuando un usuario s
 Ayudame a identificar que esta mal en este codigo y el porque
 ------------------------------------------------------------------------------------------
 prompt que hace uso del script de "register.js" para corregirlo y obtener retroalimentación. 
+
+⌊________ >> Como solucionar el error "register.js:31 Uncaught TypeError: Cannot read properties of null (reading 'trim')" y explicame porque aparece
+            ------------------------------------------------------------------------------------------------------------------------------------------
+            Se usa este prompt para solucionar el error especificado en el mismo promt para corregirlo, el error se obtiene de la consola del navegador.
+.
+.
+Como "imprimir" los datos guardados de un usuario en otro lado
+------------------------------------------------------------------------------------------
+prompt para aprender a imprimir los datos de un usuario en config.html

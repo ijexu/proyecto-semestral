@@ -30,6 +30,3 @@ LocalStorage || 3 comandos:
 - localStorage.removeItem("clave","texto"); -> borra
 
 GUARDA TEXTO, PARA LISTAS SE CONVIERTE EN JSON
-
-
-ARREGLAR ERROR EN INDEX.HTML Y SU SCRIPT, AÑADIR LocalStorage RELACIONADO AL LocalStorage DE REGISTER PARA UNA FUNCIONALIDAD A LA PAR.
