@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- para que se vea bien en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casino</title>
     <!-- [IA] inicio · ia/2026-11-02_ashenkn_menu-lateral.md -->
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script> <!-- prefabrica el css a partir de las clases -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script> <!-- defer: espera a que cargue el HTML antes de activarse -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
     <!-- [IA] fin -->
 </head>
-<body class="min-h-screen bg-gradient-to-b from-[#1F113A] to-[#0D0C1E] text-white" style="font-family: sans-serif;"> <!-- fondo con degradado de la paleta -->
+<body class="min-h-screen bg-gradient-to-b from-[#1F113A] to-[#0D0C1E] text-white" style="font-family: sans-serif;">
 
     <!-- [IA] inicio · ia/2026-11-02_ashenkn_menu-lateral.md -->
     <div x-data="{ abierto: false }" class="flex">
@@ -21,7 +21,7 @@
                 <img src="images/Monto.jpg" alt="Fichas" class="w-8 h-8">
                 <span x-show="abierto">Fichas</span>
             </a>
-
+          <!-- [IA] fin -->
             <a href="#" class="flex items-center gap-2 bg-[#1F113A] hover:bg-[#E99415] hover:text-black p-3 rounded mt-3">
                 <img src="images/configuraciones.jpg" alt="Configuración" class="w-8 h-8">
                 <span x-show="abierto">Configuración</span>
@@ -32,7 +32,6 @@
                 <span x-show="abierto">Cerrar sesión</span>
             </a>
         </aside>
-    <!-- [IA] fin -->
 
         <div class="flex-1 p-5">
             <div class="flex justify-end items-center gap-4">
@@ -43,6 +42,69 @@
             </div>
 
             <h1 class="text-[#E99415] text-2xl font-bold mt-5">Todos los juegos</h1>
+
+            <!-- [IA] inicio · Cuadrícula de Juegos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+                
+                <!-- Tarjeta Juego 1 -->
+                <div x-data="{ esFavorito: false }" class="relative group bg-[#1F113A] border border-white/10 rounded-xl overflow-hidden hover:border-[#E99415] transition cursor-pointer">
+                    <!-- Botón de Favorito (Estrella) -->
+                    <button 
+                        @click.stop="esFavorito = !esFavorito" 
+                        class="absolute top-3 right-3 z-10 bg-[#0D0C1E]/80 p-2 rounded-full hover:scale-110 transition text-xl"
+                        :class="esFavorito ? 'text-[#F0C32C]' : 'text-gray-400 hover:text-white'">
+                        ★
+                    </button>
+
+                    <!-- Área Clicable del Juego -->
+                    <a href="#" @click.prevent class="block p-4">
+                        <div class="w-full h-40 bg-[#0D0C1E] rounded-lg flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                            <span class="text-4xl">🎰</span>
+                        </div>
+                        <h2 class="text-lg font-bold text-white group-hover:text-[#E99415] transition">Tragamonedas</h2>
+                      
+                    </a>
+                </div>
+
+                <!-- Tarjeta Juego 2 -->
+                <div x-data="{ esFavorito: false }" class="relative group bg-[#1F113A] border border-white/10 rounded-xl overflow-hidden hover:border-[#E99415] transition cursor-pointer">
+                    <button 
+                        @click.stop="esFavorito = !esFavorito" 
+                        class="absolute top-3 right-3 z-10 bg-[#0D0C1E]/80 p-2 rounded-full hover:scale-110 transition text-xl"
+                        :class="esFavorito ? 'text-[#F0C32C]' : 'text-gray-400 hover:text-white'">
+                        ★
+                    </button>
+
+                    <a href="#" @click.prevent class="block p-4">
+                        <div class="w-full h-40 bg-[#0D0C1E] rounded-lg flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                            <span class="text-4xl">🎲</span>
+                        </div>
+                        <h2 class="text-lg font-bold text-white group-hover:text-[#E99415] transition">Ruleta</h2>
+                      
+                    </a>
+                </div>
+
+                <!-- Tarjeta Juego 3 -->
+                <div x-data="{ esFavorito: false }" class="relative group bg-[#1F113A] border border-white/10 rounded-xl overflow-hidden hover:border-[#E99415] transition cursor-pointer">
+                    <button 
+                        @click.stop="esFavorito = !esFavorito" 
+                        class="absolute top-3 right-3 z-10 bg-[#0D0C1E]/80 p-2 rounded-full hover:scale-110 transition text-xl"
+                        :class="esFavorito ? 'text-[#F0C32C]' : 'text-gray-400 hover:text-white'">
+                        ★
+                    </button>
+
+                    <a href="#" @click.prevent class="block p-4">
+                        <div class="w-full h-40 bg-[#0D0C1E] rounded-lg flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                            <span class="text-4xl">🃏</span>
+                        </div>
+                        <h2 class="text-lg font-bold text-white group-hover:text-[#E99415] transition">Blackjack</h2>
+                       
+                    </a>
+                </div>
+
+            </div>
+            <!-- [IA] fin -->
+
         </div>
 
     </div>
