@@ -1,24 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <link rel="stylesheet" href="main.css">
-    </head>
-    <body>
-        <div class="mainbox1">
-            <button class="mainmenubutton" id="mainmenubutton"> ☰ </button>
-            <div class="menu" id="menu">
-            <div class="menucontent" id="menucontent">
-                <span class="closemenu" id="closemenu">&times;</span>
-                <a href="index.html" style="color: burlywood;"> Cerrar Sesi&oacute;n </a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- para que se vea bien en móviles -->
+    <title>Casino</title>
+    <!-- [IA] inicio · ia/2026-11-02_ashenkn_menu-lateral.md -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script> <!-- prefabrica el css a partir de las clases -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script> <!-- defer: espera a que cargue el HTML antes de activarse -->
+    <!-- [IA] fin -->
+</head>
+<body class="min-h-screen bg-gradient-to-b from-[#1F113A] to-[#0D0C1E] text-white" style="font-family: sans-serif;"> <!-- fondo con degradado de la paleta -->
+
+    <!-- [IA] inicio · ia/2026-11-02_ashenkn_menu-lateral.md -->
+    <div x-data="{ abierto: false }" class="flex">
+
+        <aside class="bg-[#0D0C1E] p-3 min-h-screen flex flex-col">
+            <button @click="abierto = !abierto" class="bg-[#1F113A] hover:bg-[#E99415] hover:text-black p-3 rounded w-full">☰</button>
+
+            <a href="#" class="flex items-center gap-2 bg-[#1F113A] hover:bg-[#E99415] hover:text-black p-3 rounded mt-3">
+                <img src="images/Monto.jpg" alt="Fichas" class="w-8 h-8">
+                <span x-show="abierto">Fichas</span>
+            </a>
+
+            <a href="#" class="flex items-center gap-2 bg-[#1F113A] hover:bg-[#E99415] hover:text-black p-3 rounded mt-3">
+                <img src="images/configuraciones.jpg" alt="Configuración" class="w-8 h-8">
+                <span x-show="abierto">Configuración</span>
+            </a>
+
+            <a href="#" class="flex items-center gap-2 bg-[#1F113A] hover:bg-[#E99415] hover:text-black p-3 rounded mt-auto">
+                <img src="images/CerrarS.jpg" alt="Cerrar sesión" class="w-8 h-8">
+                <span x-show="abierto">Cerrar sesión</span>
+            </a>
+        </aside>
+    <!-- [IA] fin -->
+
+        <div class="flex-1 p-5">
+            <div class="flex justify-end items-center gap-4">
+                <span class="text-[#F0C32C] text-2xl font-bold">0 $</span>
+                <a href="#">
+                    <img src="images/PERFIL.jpg" alt="Perfil" class="w-12 h-12 rounded-full object-cover">
+                </a>
             </div>
-            </div>
+
+            <h1 class="text-[#E99415] text-2xl font-bold mt-5">Todos los juegos</h1>
         </div>
 
-        <div class="mainbox2">
-            <button class="game1" onclick="window.location.href='workinprogress.html'">JACKPOT</button>
-            <button class="game2" onclick="window.location.href='workinprogress.html'">BLACKJACK</button>
-            <button class="game3" onclick="window.location.href='workinprogress.html'">DADOS</button>
-        </div>
-        <script src="main.js"></script>
-    </body>
+    </div>
+
+</body>
 </html>

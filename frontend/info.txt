@@ -1,0 +1,10 @@
+Informacion importante
+Paleta de colores:
+#E99415
+#F0C32C
+
+Fondos:
+ #1F113A a #0D0C1E
+
+Tipografia:
+sans-serif
