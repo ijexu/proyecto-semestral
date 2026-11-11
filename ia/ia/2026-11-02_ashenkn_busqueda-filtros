@@ -1,0 +1,77 @@
+- **Fecha:** 2026-11-02
+- **Integrante:** Alvaro (@ashenkn)
+- **Herramienta y modelo:** Gemini (Google)
+- **Archivos afectados:** frontend/main.html
+
+## Objetivo
+Quería agregar herramientas de búsqueda y navegación en el catálogo de juegos del casino: un campo de texto para buscar por nombre, un menú desplegable para filtrar por tipo de juego (Cartas, Ruleta, Tragamonedas) y un selector para ordenar alfabéticamente (A-Z / Z-A). Al no saber cómo conectar estos tres controles de forma reactiva  consulté a la IA para aprender a implementarlo con Alpine.js y Tailwind CSS.
+
+## Conversación (texto completo, sin editar)
+
+### Prompt 1
+ quiero saber como agregar una barra de busqueda por texto, un ordenamiento alfabetico y un filtro por tipo de juego (cartas ruleta tragamonedas ) pero que los filtros sean un boton desplegable (contexto un casino). enseñame como lograr esto paso a paso para aprender
+
+### Respuesta 1
+¡Hola! Vamos a agregar la barra de búsqueda, el ordenamiento alfabético y el filtro desplegable por categoría a tu casino.
+
+Para lograrlo en Alpine.js, centralizaremos la lista de juegos en el x-data principal y utilizaremos una propiedad computada (get juegosFiltrados) que evalúe en tiempo real la búsqueda, la categoría y el orden alfabético. Además, usaremos una variable booleana para controlar la apertura del menú desplegable.
+
+1. Estado principal en Alpine.js
+En el contenedor definimos:
+- busqueda: '' (texto del input).
+- categoria: 'todos' (tipo de juego seleccionado).
+- orden: 'asc' (orden alfabético).
+- dropdownAbierto: false (estado de visibilidad del desplegable).
+- juegos: [...] (arreglo de objetos).
+
+2. Menú desplegable y cierre externo
+Utilizamos x-show="dropdownAbierto" para mostrar las opciones y la directiva @click.away="dropdownAbierto = false" para cerrar el menú automáticamente si se hace clic fuera de él.
+
+<!-- [IA] inicio · ia/2026-11-02_ashenkn_busqueda-filtros.md -->
+<!-- Componente de Búsqueda y Botón Desplegable de Filtros -->
+<div class="relative w-1/2 md:w-48" @click.away="dropdownAbierto = false">
+    <button 
+        @click="dropdownAbierto = !dropdownAbierto" 
+        class="w-full bg-[#1F113A] border border-white/10 rounded-lg px-4 py-2 text-white flex justify-between items-center hover:border-[#E99415] transition">
+        <span x-text="categoria === 'todos' ? 'Categoría: Todas' : 'Categoría: ' + categoria.charAt(0).toUpperCase() + categoria.slice(1)"></span>
+        <span class="text-xs ml-2">▼</span>
+    </button>
+
+    <!-- Menú Flotante Desplegable -->
+    <div 
+        x-show="dropdownAbierto" 
+        class="absolute left-0 mt-2 w-full bg-[#0D0C1E] border border-white/10 rounded-lg shadow-xl z-20 overflow-hidden py-1">
+        
+        <button 
+            @click="categoria = 'todos'; dropdownAbierto = false" 
+            class="w-full text-left px-4 py-2 text-sm hover:bg-[#E99415] hover:text-black transition"
+            :class="categoria === 'todos' ? 'text-[#F0C32C] font-bold' : 'text-white'">
+            Todas las categorías
+        </button>
+        <button 
+            @click="categoria = 'cartas'; dropdownAbierto = false" 
+            class="w-full text-left px-4 py-2 text-sm hover:bg-[#E99415] hover:text-black transition"
+            :class="categoria === 'cartas' ? 'text-[#F0C32C] font-bold' : 'text-white'">
+            Cartas
+        </button>
+    </div>
+</div>
+<!-- [IA] fin -->
+
+Tips Generales de Desarrollo:
+1. Directiva @click.away: Es esencial para menús flotantes o modales, ya que evita tener que escribir eventos globales de escucha en JavaScript nativo.
+2. Formateo de texto dinámico (x-text): Permite reflejar en el botón principal la opción elegida en tiempo real.
+
+
+## Qué se incorporó al proyecto
+- Estructura del menú desplegable de categorías con posicionamiento relativo/absoluto (`relative` / `absolute z-20`) entregada por la IA.
+- Uso de `@click.away` para el cierre automático al hacer clic en cualquier otra parte de la pantalla.
+- Modificaciones mías: ## Qué se incorporó al proyecto
+- Sistema completo de búsqueda en tiempo real, ordenamiento alfabético y menú desplegable de categorías (`x-data`, `get juegosFiltrados()` y `@click.away`).
+- Estructura responsiva de la barra de herramientas y la cuadrícula dinámica de juegos en Tailwind CSS y Alpine.js.
+- Modificaciones mías: Integración directa del código entregado en mi archivo `frontend/main.html`, adaptación de los nombres e iconos de los 3 juegos (Tragamonedas, Ruleta, Blackjack) y demarcación estricta de las etiquetas de trazabilidad `<!-- [IA] ... -->`.
+
+## Verificación
+- Lo probé con Live Server: al hacer clic en el botón de categorías se despliega el menú flotante, y al seleccionar una opción o hacer clic afuera, se cierra correctamente mientras filtra las tarjetas.
+- Entiendo que `@click.away` detecta eventos fuera de la jerarquía del contenedor.
+- Entiendo que `get juegosFiltrados()` encadena los métodos `.filter()` y `.sort()` para actualizar la cuadrícula en tiempo real.
