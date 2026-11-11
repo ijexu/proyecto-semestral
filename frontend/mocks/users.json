@@ -1,0 +1,10 @@
+[
+  {
+    "nombre": "usuario",
+    "apellido": "generico",
+    "usuario": "usuario",
+    "correo": "usuario@ejemplo.com",
+    "nacimiento": "20-03-2001",
+    "contrasena": "1234"
+  }
+]

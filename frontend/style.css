@@ -218,23 +218,31 @@ color: #FF8B8B;
 /*-------------------- CONFIGURATION -------------------------*/
 /*-----------------------------------------------------------*/
 
+*, *::before, *::after {
+  box-sizing: border-box;
+} /* AÑADIDO IA*/
+
 .configuration-menu{
   display: flex;
   min-height: 100vh;
+  border-right: #FFDEDE;
+  border-radius: 15;
 }
 
 .buttons-menu{
+  border-radius: 15px;
+  border-color: #FFDEDE;
   display: flex;
   flex-direction: column;
-  flex: 0 0 200px;
+  flex: 0 0 200px; /* AÑADIDO IA*/
   position: sticky;
-  top: 0;
+  top: 0; /* AÑADIDO IA*/
   height: 100vh;
   background-color: #820000;
 }
 
 .menu-section{
-  flex: 1; /* CORRECCION HECHA POR IA, CORRIGIENDO EL WIDTH:AUTO*/
+  flex: 1; /* CORRECION IA || width:auto;*/
   background-color: aqua;
 }
 
@@ -261,6 +269,127 @@ color: #FF8B8B;
   text-align: center;
 }
 
+.menu-section{
+  background-image: url(images/backgroundcasinoff.png);
+
+}
+
+/*-------------------- SECCION USUARIO -------------------------*/
+
+/* ELIMINADO IA: la regla .section (el parche absoluto de 85vw x 900px).
+   Se pintaba encima del contenido, el JS lo ocultaba al primer clic y
+   tenía medidas fijas. Ahora el parche es el fondo de .user-section.
+   Recuerda borrar también <section class="section"></section> del HTML. */
+
+   /* MODIFICADO: antes era solo .user-section con display:flex y
+   min-height:100vh. Ahora el panel oscuro es la propia sección, y lo
+   comparte .general-section para que ambas se vean igual. */
+.menu-section{
+  flex: 1;
+  background-image: url(images/backgroundcasinoff.png);
+  background-size: cover;
+  background-position: center;
+}
+
+.user-section, /* IA: Se corrige la creacion de un div con clase user-section, se elimina y se integran los cambios a  */
+.general-section { 
+  background-color: #1f1f1f7a; /*  CONSERVADO */
+  border-radius: 50px; /* CONSERVADO */
+  padding: 2rem 3rem; /* AÑADIDO IA */
+  min-height: calc(100vh - 2rem); /* AÑADIDO IA */
+  margin: 2rem;
+}
+
+/*CAJA ARRIBA*/
+
+.config-box-up {
+  display: flex;
+  justify-content: space-between; /* AÑADIDO IA*/
+  align-items: center;            /* AÑADIDO IA*/
+  padding-bottom: 1.5rem;         /* AÑADIDO IA*/
+  border-bottom: 2px solid #ffffff40;
+}
+
+/* ELIMINADO: .config-box-up-left { flex: 3 } y .config-box-up-right { flex: 1 }
+   Peleaban con space-between. Las cajas siguen en el HTML, solo que no se les define
+   un ancho */
+
+/* MODIFICADO: antes height:200px; width:auto; border-radius:900px */
+.profile-icon{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;     /* AÑADIDO: recorta la imagen sin deformarla */
+  border-radius: 50%;    /* MODIFICADO IA: De 900px a 50% */
+}
+
+/*CAJA ABAJO*/
+
+/* ELIMINADO IA: .config-box-down { flex: 2; display: flex; flex-direction: column }*/
+
+.data-title{
+  color: white;
+  font-family: sans-serif;
+  margin: 1rem 0 0; /* AÑADIDO IA */
+  padding-bottom: .75rem; /* AÑADIDO IA */
+  border-bottom: 1px solid #ffffff40; /* AÑADIDO IA */
+}
+
+.data-row{
+  display: flex;
+  gap: 5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ffffff40;
+}
+
+/* MODIFICADO IA: antes era .config-box-down h4. Ahora también cubre el h4
+   de la caja de arriba*/
+
+.config-box-down h4, 
+.config-box-up h4{
+  color: rgb(161, 161, 161);
+  font-family: sans-serif;
+  margin: 0 0 .25rem; /* AÑADIDO IA */
+}
+
+.data-info{
+display: flex;
+  align-items: center;
+  gap: .75rem; /*AÑADIDO IA*/
+}
+
+.data-info h3{
+  color: white;
+  font-size: 30px;
+  font-family: sans-serif;
+  margin: 0; /*MODIFICADO IA: antes se usaba margin-bottom */
+}
+
+.edit-button{
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background-color: #820000;
+  color: white;
+}
+
+.viewpassword-button{
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background-color: #820000;
+  color: white;
+}
+
+.edit-button:hover{ background-color: #FF8B8B; }
+.viewpassword-button:hover{ background-color: #FF8B8B; }
+
+
+/*MODIFICADO IA: Se mantiene la propiedad de oculto, como .user-section con misma 
+especificidad e iba despues ganaba, ahora no*/
 .oculto{
   display: none;
 }
+
+
