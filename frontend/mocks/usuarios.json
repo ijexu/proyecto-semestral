@@ -1,0 +1,23 @@
+[
+    {
+        "id":1,
+        "nombre" :"Usuario",
+        "Apellido" :"Generico",
+        "usuario" :"usuario",
+        "correo":"usuario@ejemplo.com",
+        "nacimiento" :"2001-03-20",
+        "contrasena" :"1234",
+        "saldo": 1000
+    },
+    {
+"id" : 2,
+"nombre" :"Camilo",
+"apellido" :"Torres",
+"usuario":"camilo",
+"correo":"camila@ejemplo.com",
+"nacimiento":"1998-07-12",
+"contrasena" :"abcd1234",
+"saldo" :2500
+
+    }
+]
