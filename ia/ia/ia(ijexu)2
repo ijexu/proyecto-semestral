@@ -1,0 +1,169 @@
+- **Fecha:** 2026-11-07
+- **Integrante:** Jesús (@ijexu)
+- **Herramienta y modelo:** Claude
+- **Archivos afectados:** frontend/config.html
+
+## Objetivo
+En config.html queria implementar un menu dinamico en donde el contenido cambiara segun la necesidad del usuario (configurar perfil, o configuracion general).
+
+## Conversación (texto completo, sin editar)
+
+### Prompt 1
+Enseñame como hacer menus dinamicos en html, asi tambien enseñame a hacer el script correspondiente, un menu lateral con 2 botones, y que cada uno tenga su propio contenido de pagina
+
+### Respuesta 1
+Para lograr un menú lateral dinámico donde cada botón cargue o muestre su propio contenido sin recargar la página, la técnica estándar en desarrollo frontend consiste en ocultar y mostrar contenedores (div) mediante CSS y JavaScript, utilizando atributos personalizados (data-*) para vincular cada botón con su respectiva sección.
+
+A continuación tienes la estructura completa separada por responsabilidades, lista para copiar, probar y escalar.
+
+1. Estructura HTML (index.html)
+Utilizamos etiquetas semánticas (<aside> para el menú lateral y <main> para el contenido). La clave está en el atributo data-target de los botones, cuyo valor debe coincidir exactamente con el id de la sección de contenido que queremos mostrar.
+
+HTML
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Lateral Dinámico</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="layout-container">
+        <!-- Menú Lateral -->
+        <aside class="sidebar">
+            <h2>Navegación</h2>
+            <nav class="menu-nav">
+                <!-- El atributo data-target apunta al ID de la vista -->
+                <button class="menu-btn active" data-target="vista-1">Inicio</button>
+                <button class="menu-btn" data-target="vista-2">Perfil</button>
+            </nav>
+        </aside>
+
+        <!-- Área de Contenido Dinámico -->
+        <main class="content-area">
+            <section id="vista-1" class="tab-content active">
+                <h1>Contenido de Inicio</h1>
+                <p>Esta es la vista principal. Al cargar la página, aparece activa por defecto.</p>
+            </section>
+
+            <section id="vista-2" class="tab-content">
+                <h1>Contenido de Perfil</h1>
+                <p>Aquí va la información específica del segundo botón, oculta inicialmente.</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+2. Estilos CSS (styles.css)
+Usamos Flexbox para dividir la pantalla entre la barra lateral y el contenido. Para la lógica visual, todas las secciones .tab-content tienen display: none por defecto, excepto la que tenga la clase .active.
+
+CSS
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.layout-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Estilos del Menú Lateral */
+.sidebar {
+    width: 240px;
+    background-color: #1e293b;
+    color: #f8fafc;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-btn {
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.menu-btn:hover {
+    background-color: #334155;
+    color: #ffffff;
+}
+
+/* Estado activo del botón */
+.menu-btn.active {
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Estilos del Área de Contenido */
+.content-area {
+    flex: 1;
+    padding: 40px;
+    background-color: #f1f5f9;
+}
+
+/* Oculta todas las vistas por defecto */
+.tab-content {
+    display: none;
+}
+
+/* Muestra únicamente la vista activa */
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+3. Lógica en JavaScript (script.js)
+El script escucha los clics en cada botón. Cuando ocurre un clic, limpia la clase .active de todos los elementos y se la asigna únicamente al botón presionado y a su vista correspondiente.
+
+JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Seleccionamos todos los botones y todas las secciones de contenido
+    const botones = document.querySelectorAll('.menu-btn');
+    const vistas = document.querySelectorAll('.tab-content');
+
+    // 2. Iteramos sobre cada botón para asignarle un evento 'click'
+    botones.forEach(boton => {
+        boton.addEventListener('click', () => {
+            // Obtenemos el ID del destino desde el atributo data-target
+            const targetId = boton.getAttribute('data-target');
+            const vistaObjetivo = document.getElementById(targetId);
+
+            // 3. Limpiamos el estado activo de todos los botones y vistas
+            botones.forEach(btn => btn.classList.remove('active'));
+            vistas.forEach(vista => vista.classList.remove('active'));
+
+            // 4. Activamos el botón clicado y la vista correspondiente
+            boton.classList.add('active');
+            if (vistaObjetivo) {
+                vistaObjetivo.classList.add('active');
+            }
+        });
+    });
+});
+
+
