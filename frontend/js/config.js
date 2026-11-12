@@ -18,7 +18,7 @@ botonesSeccion.forEach(function (boton) {
         document.getElementById(id).classList.remove("oculto");
     });
 });
-
+// [IA] INICIO
 // ---------- Datos del perfil ----------
 // Para cada campo editable: id del <span> donde se muestra, tipo de <input> y nombre legible.
 const CAMPOS = {
@@ -158,8 +158,8 @@ function cerrarEdicion() {
     edicion.boton.title = "Editar " + etiqueta;
     edicion = null;
 }
-
-function cancelarEdicion() {
+// [IA] FIN
+ function cancelarEdicion() {
     if (edicion && !guardando) cerrarEdicion();
 }
 
@@ -167,44 +167,43 @@ async function guardarEdicion() {
     if (!edicion || guardando) return;
 
     const campo = edicion.campo;
-    const input = edicion.input;
+     const input = edicion.input;
     const boton = edicion.boton;
     // La contraseña se guarda tal cual (los espacios cuentan); el resto sin espacios en los bordes
     const valor = campo === "contrasena" ? input.value : input.value.trim();
-
+  
     // Nada que guardar: simplemente se cierra la edición
-    if (valor === "" && campo === "contrasena") { cerrarEdicion(); return; }
-    if (campo !== "contrasena" && valor === perfil[campo]) { cerrarEdicion(); return; }
+    if (valor=== "" && campo === "contrasena") { cerrarEdicion(); return; }
+      if (campo !== "contrasena" && valor === perfil[campo]) { cerrarEdicion(); return; }
 
     guardando = true;
     input.disabled = true;
     boton.disabled = true;
 
-    const cambios = {};
-    cambios[campo] = valor;
-    const respuesta = await actualizarPerfil(cambios);
+     const cambios = {};
+     cambios[campo] = valor;
+      const respuesta = await actualizarPerfil(cambios);
 
-    guardando = false;
+     guardando = false;
     input.disabled = false;
-    boton.disabled = false;
+       boton.disabled = false;
 
-    if (respuesta.status === 401) {
+    if  (respuesta.status === 401) {
         window.location.replace("index.html");
-        return;
-    }
-    if (!respuesta.ok) {
+        return;}
+       if (!respuesta.ok) {
         alert(respuesta.error);   // se queda en modo edición para corregir
         input.focus();
         return;
     }
 
-    perfil = respuesta.data;
-    cerrarEdicion();
-    mostrarPerfil();
-    if (campo === "contrasena") pintarContrasena(); // si el ojo está abierto, muestra la nueva
+     perfil = respuesta.data;
+     cerrarEdicion();
+       mostrarPerfil();
+      if (campo === "contrasena") pintarContrasena(); // si el ojo está abierto, muestra la nueva
 }
 
-document.querySelectorAll("[data-campo]").forEach(function (boton) {
+   document.querySelectorAll("[data-campo]").forEach(function (boton) {
     boton.addEventListener("click", function () {
         empezarEdicion(boton);
     });
