@@ -30,4 +30,6 @@ async function cargarDatosPerfil() {
     document.getElementById("password").textContent = "*********"
 }}
 
+
+
 cargarDatosPerfil();
