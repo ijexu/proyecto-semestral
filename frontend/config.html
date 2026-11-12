@@ -5,6 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CONFIGURACIÓN</title>
     <link rel="stylesheet" href="styles/style.css">
+    <style>
+        /* Título GENERAL en blanco */
+        .general-section h1 {
+            color: #ffffff;
+            margin-bottom: 24px;
+            letter-spacing: 1.5px;
+        }
+
+        /* Contenedor para alinear los botones */
+        .general-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 280px;
+        }
+
+        /* Estilo base mejorado para ambos botones */
+        #cerrar-sesion,
+        #eliminar-cuenta {
+            padding: 14px 22px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Botón Cerrar Sesión (neutro / secundario elegante) */
+        #cerrar-sesion {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #cerrar-sesion:hover {
+            background-color: rgba(255, 255, 255, 0.22);
+            border-color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Botón Eliminar Cuenta (peligro / destructivo) */
+        #eliminar-cuenta.btn-peligro {
+            background-color: #dc2626;
+            color: #ffffff;
+            border: 1px solid #ef4444;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        #eliminar-cuenta.btn-peligro:hover {
+            background-color: #b91c1c;
+            border-color: #f87171;
+            box-shadow: 0 6px 16px rgba(220, 38, 38, 0.5);
+            transform: translateY(-2px);
+        }
+
+        #cerrar-sesion:active,
+        #eliminar-cuenta:active {
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
     <div class="configuration-menu">
@@ -13,8 +79,7 @@
             <button type="button" class="user" data-seccion="user-section"> USUARIO </button>
             <button type="button" class="general" data-seccion="general-section"> GENERAL</button>
             <div class="menu-bottom">
-                <button type="button" id="cerrar-sesion">CERRAR SESIÓN</button>
-                <button type="button" id="eliminar-cuenta" class="btn-peligro">ELIMINAR CUENTA</button>
+               
                 <a class="volver-atras" href="main.html"> VOLVER ATRAS </a>
             </div>
         </nav>
@@ -91,19 +156,20 @@
                         </div>
                 </div>
 
-
-
-
                 </div>
 
             </section>
 
             <section class="general-section oculto" id="general-section"> 
                 <h1> GENERAL </h1>
+                <div class="general-actions">
+                    <button type="button" id="cerrar-sesion">CERRAR SESIÓN</button>
+                    <button type="button" id="eliminar-cuenta" class="btn-peligro">ELIMINAR CUENTA</button>
+                </div>
             </section>
         </main>
     </div>
-<script src="js/api.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/config.js"></script>
 </body>
 </html>
