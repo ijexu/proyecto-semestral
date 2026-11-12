@@ -27,21 +27,20 @@ formulario.addEventListener("submit", async function (evento) {
     evento.preventDefault();
 
     const nuevo = {
-        nombre: document.getElementById("name").value.trim(),
-        apellido: document.getElementById("lastname").value.trim(),
-        usuario: document.getElementById("username").value.trim(),
+          nombre: document.getElementById("name").value.trim(),
+           apellido: document.getElementById("lastname").value.trim(),
+          usuario: document.getElementById("username").value.trim(),
         correo: document.getElementById("mail").value.trim(),
-        nacimiento: inputNacimiento.value,
-        contrasena: document.getElementById("password").value
-    };
+         nacimiento: inputNacimiento.value,
+         contrasena: document.getElementById("password").value };
 
     // La API no lanza errores (throw): devuelve { ok, status, data, error }
     const boton = formulario.querySelector("button[type='submit']");
-    if (boton) boton.disabled = true;
+     if (boton) boton.disabled = true;
 
-    const respuesta = await registrarUsuarios(nuevo);
+      const respuesta = await registrarUsuarios(nuevo);
 
-    if (respuesta.ok) {
+     if (respuesta.ok) {
         window.location.href = "index.html";
     } else {
         alert(respuesta.error);
