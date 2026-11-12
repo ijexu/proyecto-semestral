@@ -13,28 +13,29 @@
                 <h1> REGISTRARSE </h1>
                 <fieldset>
                     <legend> Nombre </legend>
-                    <input type="text" name="name" placeholder="Nombre" required id="name">
-                    <input type="text" name="lastname" placeholder="Apellido" required id="lastname">
+                    <input type="text" name="name" placeholder="Nombre" aria-label="Nombre" autocomplete="given-name" required id="name">
+                    <input type="text" name="lastname" placeholder="Apellido" aria-label="Apellido" autocomplete="family-name" required id="lastname">
                 </fieldset>
                 <label for="username"> Nombre de usuario </label>
-                <input type="text" name="username" placeholder="usuario" required id="username">
-                <label for="mail"> Correo electronico </label>
-                <input type="email" name="mail" placeholder="ejemplo@mail.com" required id="mail">
+                <input type="text" name="username" placeholder="usuario" autocomplete="username" required id="username">
+                <label for="mail"> Correo electrónico </label>
+                <input type="email" name="mail" placeholder="ejemplo@mail.com" autocomplete="email" required id="mail">
                 <label for="birthdate"> Fecha de nacimiento </label>
-                <input type="date" name="birthdate" id="birthdate" required id="birthday">
+                <input type="date" name="birthdate" id="birthdate" autocomplete="bday" required>
                 <label for="password"> Contraseña </label>
-                <input type="password" name="password" required id="password">
+                <input type="password" name="password" autocomplete="new-password" minlength="4" required id="password">
                 <button type="submit">REGISTRARSE</button>
 
-                 <section class="seccion-enlace">
-                    <h3> Si ya tienes una cuenta </h3> <a href="index.html" class="enlace"> Inicia sesión </a>
-                </section>
+                <div class="seccion-enlace">
+                    <p>Si ya tienes una cuenta</p>
+                    <a href="index.html" class="enlace">Inicia sesión</a>
+                </div>
             </form>
 
 
         </div>
     </main>
     <script src="js/api.js"></script>
-            <script src="js/register.js"></script>
+    <script src="js/register.js"></script>
 </body>
 </html>

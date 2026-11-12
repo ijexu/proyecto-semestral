@@ -1,0 +1,77 @@
+[
+  {
+   "id": 1,
+    "usuarioId": 1,
+  "tipo": "deposito",
+     "monto": 1000,
+     "juegoId": null,
+    "nota": "Depósito inicial",
+    "fecha": "2026-11-02T10:15:00" },
+  {
+    "id": 2,
+    "usuarioId": 1,
+    "tipo": "entrada",
+    "monto": 50,
+    "juegoId": 1,
+    "nota": "Entrada al juego",
+    "fecha": "2026-11-03T20:30:00" },
+  {
+    "id": 3,
+    "usuarioId": 1,
+    "tipo": "entrada",
+    "monto": 100,
+    "juegoId": 7,
+    "nota": "Entrada al juego",
+    "fecha": "2026-11-04T21:05:00" },
+  {
+
+   "id": 4,
+    "usuarioId": 1,
+     "tipo": "deposito",
+    "monto": 250,
+     "juegoId": null,
+    "nota": "Recarga de fin de semana",
+      "fecha": "2026-11-05T18:40:00"
+  },
+  {
+   "id": 5,
+  "usuarioId": 1,
+     "tipo": "entrada",
+      "monto": 100,
+    "juegoId": 10,
+     "nota": "Entrada al juego",
+    "fecha": "2026-11-06T22:10:00" },
+  {
+     "id": 6,
+     "usuarioId": 2,
+    "tipo": "deposito",
+      "monto": 3000,
+    "juegoId": null,
+      "nota": "Depósito inicial",
+       "fecha": "2026-11-02T12:00:00"
+  },
+  {
+       "id": 7,
+    "usuarioId": 2,
+    "tipo": "entrada",
+       "monto": 100,
+    "juegoId": 4,
+      "nota": "Entrada al juego",
+    "fecha": "2026-11-03T19:20:00"  },
+  {
+    "id": 8,
+    "usuarioId": 2,
+    "tipo": "entrada",
+    "monto": 200,
+    "juegoId": 8,
+    "nota": "Entrada al juego",
+    "fecha": "2026-11-04T23:00:00"},
+  {
+    "id": 9,
+    "usuarioId": 2,
+    "tipo": "entrada",
+    "monto": 200,
+     "juegoId": 8,
+     "nota": "Revancha en el póker",
+      "fecha": "2026-11-05T23:30:00"}
+]

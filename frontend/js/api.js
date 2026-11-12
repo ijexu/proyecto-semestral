@@ -3,7 +3,8 @@
 // [IA] inicio · ia/AAAA-MM-DD_usuario-github_capa-api.md
 // Constantes: se reemplazan las dos originales (CLAVE_USUARIOS y CLAVE_SESION)
 // por versiones con prefijo, para no chocar con datos viejos en localStorage.
-const PREFIJO = "casino_";
+// v2: invalida los datos viejos que quedaron en localStorage con los mocks erróneos
+const PREFIJO = "casino_v2_";
 const CLAVE_USUARIOS = PREFIJO + "usuarios";
 const CLAVE_JUEGOS = PREFIJO + "juegos";
 const CLAVE_FAVORITOS = PREFIJO + "favoritos";
@@ -54,14 +55,31 @@ function guardarRecurso(clave, datos) {
     localStorage.setItem(clave, JSON.stringify(datos));
 }
  
+// Error con mensaje propio para que el usuario sepa qué falló (y no solo "no se pudo completar").
+function errorDeMock(mensaje) {
+    const error = new Error(mensaje);
+    error.esMock = true;
+    return error;
+}
+ 
 // La primera vez carga mocks/<archivo>.json y lo copia a localStorage.
 // Desde entonces siempre se lee y se escribe en localStorage.
 async function leerRecurso(clave, archivo) {
     const guardado = localStorage.getItem(clave);
     if (guardado) return JSON.parse(guardado);
  
-    const res = await fetch("mocks/" + archivo + ".json");
-    if (!res.ok) throw new Error("No se pudo cargar mocks/" + archivo + ".json");
+    let res;
+    try {
+        res = await fetch("mocks/" + archivo + ".json");
+    } catch (error) {
+        // fetch falla siempre si la página se abre con doble clic (file://)
+        throw errorDeMock(window.location.protocol === "file:"
+            ? "Abre el proyecto con un servidor local (por ejemplo Live Server de VS Code), no con doble clic en el archivo."
+            : "No se pudo conectar para cargar mocks/" + archivo + ".json");
+    }
+    if (!res.ok) {
+        throw errorDeMock("No se encontró mocks/" + archivo + ".json (revisa mayúsculas y minúsculas en el nombre).");
+    }
     const datos = await res.json();
     guardarRecurso(clave, datos);
     return datos;
@@ -83,7 +101,9 @@ async function solicitud(operacion) {
         return await operacion();
     } catch (error) {
         console.error(error);
-        return respuestaError(500, "No se pudo completar la operación.");
+        return respuestaError(500, error && error.esMock
+            ? error.message
+            : "No se pudo completar la operación.");
     }
 }
  
@@ -236,32 +256,91 @@ function cerrarSesion() {
     });
 }
  
+// Edita los datos del perfil. Acepta cualquiera de estos campos (los que no se envían
+// quedan igual): nombre, apellido, usuario, correo, contrasena.
 function actualizarPerfil(cambios) {
     return solicitud(async function () {
         const actual = await usuarioEnSesion();
         if (!actual) return respuestaError(401, "Debes iniciar sesión.");
- 
+
         const datos = cambios || {};
         const nombre = (datos.nombre !== undefined ? datos.nombre : actual.nombre).trim();
         const apellido = (datos.apellido !== undefined ? datos.apellido : actual.apellido).trim();
         const correo = (datos.correo !== undefined ? datos.correo : actual.correo).trim();
- 
+        const nombreUsuario = (datos.usuario !== undefined ? datos.usuario : actual.usuario).trim();
+        const contrasena = datos.contrasena !== undefined ? datos.contrasena : actual.contrasena;
+
         if (!nombre || !apellido) {
             return respuestaError(400, "El nombre y el apellido no pueden estar vacíos.");
+        }
+        if (!nombreUsuario) {
+            return respuestaError(400, "El nombre de usuario no puede estar vacío.");
         }
         if (!CORREO_VALIDO.test(correo)) {
             return respuestaError(400, "El correo no es válido.");
         }
- 
+        if (contrasena.length < 4) {
+            return respuestaError(400, "La contraseña debe tener al menos 4 caracteres.");
+        }
+
         const usuarios = await leerRecurso(CLAVE_USUARIOS, "usuarios");
+
+        // El nombre de usuario debe seguir siendo único (sin contar al propio usuario)
+        const enUso = usuarios.some(function (user) {
+            return user.id !== actual.id &&
+                user.usuario.toLowerCase() === nombreUsuario.toLowerCase();
+        });
+        if (enUso) return respuestaError(409, "Ese nombre de usuario ya está en uso.");
+
         const usuario = usuarios.find(function (user) {
             return user.id === actual.id;
         });
         usuario.nombre = nombre;
         usuario.apellido = apellido;
         usuario.correo = correo;
+        usuario.usuario = nombreUsuario;
+        usuario.contrasena = contrasena;
         guardarRecurso(CLAVE_USUARIOS, usuarios);
+
+        // La sesión guarda el nombre de usuario: si cambió, hay que actualizarla
+        localStorage.setItem(CLAVE_SESION, JSON.stringify({ usuario: nombreUsuario }));
         return respuestaOk(sinContrasena(usuario));
+    });
+}
+
+// Solo para el botón "ver contraseña" de la configuración. En un servidor real la
+// contraseña nunca se devolvería (se guarda cifrada); aquí es un mock.
+function obtenerContrasena() {
+    return solicitud(async function () {
+        const actual = await usuarioEnSesion();
+        if (!actual) return respuestaError(401, "Debes iniciar sesión.");
+        return respuestaOk({ contrasena: actual.contrasena });
+    });
+}
+
+// Elimina la cuenta en sesión junto con sus movimientos y favoritos, y cierra la sesión.
+function eliminarCuenta() {
+    return solicitud(async function () {
+        const actual = await usuarioEnSesion();
+        if (!actual) return respuestaError(401, "Debes iniciar sesión.");
+
+        const usuarios = await leerRecurso(CLAVE_USUARIOS, "usuarios");
+        guardarRecurso(CLAVE_USUARIOS, usuarios.filter(function (user) {
+            return user.id !== actual.id;
+        }));
+
+        const movimientos = await leerRecurso(CLAVE_MOVIMIENTOS, "movimientos");
+        guardarRecurso(CLAVE_MOVIMIENTOS, movimientos.filter(function (m) {
+            return m.usuarioId !== actual.id;
+        }));
+
+        const favoritos = await leerRecurso(CLAVE_FAVORITOS, "favoritos");
+        guardarRecurso(CLAVE_FAVORITOS, favoritos.filter(function (f) {
+            return f.usuarioId !== actual.id;
+        }));
+
+        localStorage.removeItem(CLAVE_SESION);
+        return respuestaOk(null);
     });
 }
 // [IA] fin
@@ -396,9 +475,9 @@ function obtenerMovimientos(opciones) {
                 return tipo === "todos" || m.tipo === tipo;
             })
             .sort(function (a, b) {
-                return orden === "asc"
-                    ? a.fecha.localeCompare(b.fecha)
-                    : b.fecha.localeCompare(a.fecha);
+                const fa = a.fecha || "";
+                const fb = b.fecha || "";
+                return orden === "asc" ? fa.localeCompare(fb) : fb.localeCompare(fa);
             });
         return respuestaOk(resultado);
     });

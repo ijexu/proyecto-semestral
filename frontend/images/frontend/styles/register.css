@@ -1,0 +1,136 @@
+/*------------------------ VARIABLES -------------------------*/
+:root {
+  --bp: #FFDEDE;
+  --ro: #820000;   /* rojo oscuro */
+  --r: #a20e0e;    /* rojo */
+  --rs: #FF8B8B;   /* rosa */
+  --blanco: #fff;
+}
+
+/*------------------------ RESET Y BODY ----------------------*/
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  color: var(--ro);
+  background-color: var(--ro); /* respaldo si la imagen no carga */
+  background-image: url("../images/backgroundcasinoff.png");
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/*---------------------- REGISTER ---------------------------*/
+.registro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.pagina-registro {
+  width: 100%;
+  max-width: 500px;
+  min-height: 500px;
+  padding: 2rem;
+  background-color: var(--r);
+  color: var(--blanco);
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+.register {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.register h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.register fieldset {
+  display: flex;
+  flex-direction: row;
+  gap: 0.2rem;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+}
+
+.register legend,
+.register label {
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.register legend {
+  padding: 0;
+  margin-bottom: 0.4rem;
+}
+
+.register input {
+  width: 100%;
+  height: 46px;
+  margin: 0.1rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: white;
+  color: #000;
+  font: inherit;
+}
+
+.register input:focus-visible,
+.register button:focus-visible,
+.enlace:focus-visible {
+  outline: 3px solid var(--rs);
+  outline-offset: 2px;
+}
+
+.register button {
+  align-self: center;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--blanco);
+  background: transparent;
+  border: 4px solid var(--blanco);
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.register button:hover {
+  background: var(--rs);
+  color: var(--ro);
+  border-color: var(--rs);
+}
+
+/* Enlace "Inicia sesión" (compartido con index) */
+.seccion-enlace {
+  margin-top: auto;
+  padding-top: 32px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--blanco);
+}
+
+.enlace {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--blanco);
+  text-decoration: underline;
+}
+
+/* ---------- PANTALLAS CHICAS ---------- */
+@media (max-width: 480px) {
+  .register fieldset { flex-direction: column; }
+}

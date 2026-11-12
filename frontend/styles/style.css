@@ -1,5 +1,3 @@
-/* CORREGIDO IA: Open Sans no se cargaba; el @import debe ir primero en el archivo */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 
 /*------------------------ BASE -----------------------------*/
 /*-----------------------------------------------------------*/
@@ -20,19 +18,11 @@
 body {
   font-family: sans-serif;
   color: var(--rojo);
-  background-image: url(images/backgroundcasinoff.png);
+  background-color: var(--rojo); /* respaldo si la imagen no carga */
+  background-image: url("../images/backgroundcasinoff.png");
   /* CORREGIDO IA: sin esto la imagen se repetía en mosaico */
   background-size: cover;
   background-attachment: fixed;
-}
-
-/* CORREGIDO IA: antes la sección tokens redefinía "body" y le cambiaba el color, la fuente
-   y el fondo a TODAS las páginas. Ahora solo aplica con <body class="pagina-tokens"> */
-body.pagina-tokens {
-  min-height: 100vh;
-  font-family: "Open Sans", sans-serif;
-  color: white;
-  background-image: url(images/backgroundcasinoff2.png);
 }
 
 /*-------------------- CONFIGURATION -------------------------*/
@@ -55,12 +45,13 @@ body.pagina-tokens {
   top: 0;
   height: 100vh;
   background-color: var(--rojo);
+  overflow-y: auto; /* por si la pantalla es baja y no caben todos los botones */
 }
 
 /* CORREGIDO IA: .menu-section estaba definido 3 veces y quedó background-color: aqua de una prueba */
 .menu-section {
   flex: 1;
-  background-image: url(images/backgroundcasinoff.png);
+  background-image: url("../images/backgroundcasinoff.png");
   background-size: cover;
   background-position: center;
 }
@@ -81,8 +72,21 @@ body.pagina-tokens {
 
 .buttons-menu button:hover { background-color: var(--rosa); }
 
-.logout {
+/* Grupo inferior del menú: cerrar sesión, eliminar cuenta y volver */
+.menu-bottom {
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons-menu .btn-peligro {
+  background-color: #b00020;
+  color: white;
+}
+
+.buttons-menu .btn-peligro:hover { background-color: #ff3b3b; }
+
+.volver-atras {
   color: aliceblue;
   font-weight: bold;
   padding: 1rem;
@@ -171,158 +175,26 @@ body.pagina-tokens {
 .edit-button:hover,
 .viewpassword-button:hover { background-color: var(--rosa); }
 
-/*---------------------- TOKENS ----------------------------*/
-/*-----------------------------------------------------------*/
+.edit-button:disabled { opacity: .5; cursor: wait; }
 
-/* ---------- Barra superior ---------- */
-.barra {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.6rem 1rem;
-  background: #a30d0d;
-}
-
-.volver {
-  display: grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  background: white;
-  color: var(--rojo);
-  font-size: 1.6rem;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.monto-caja {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  min-width: 16rem;
-  padding: 0.3rem 1.5rem 0.3rem 0.5rem;
-  border-radius: 999px;
-  background: var(--rojo);
-  font-size: 1.6rem;
-  font-weight: 700;
-}
-
-.icono-dolar {
-  width: 2.4rem;
-  height: 2.4rem;
-  flex-shrink: 0;
-  object-fit: contain;
-}
-
-/* ---------- Contenido ---------- */
-.contenido {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 1rem;
-  padding: 1rem;
-  height: calc(100vh - 4.2rem);
-}
-
-.historial {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  border-radius: 24px;
-  background: rgba(0, 0, 0, 0.6);
-  overflow: hidden;
-}
-
-.historial h1 {
-  margin-bottom: 1rem;
-  text-align: center;
-  font-size: 1.1rem;
-}
-
-#lista-historial {
-  flex: 1;
-  overflow-y: auto;
-  list-style: none;
-  font-size: 1.6rem;
-  font-weight: 700;
-}
-
-#lista-historial li {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.7rem;
-}
-
-#lista-historial .icono-dolar {
-  width: 2rem;
-  height: 2rem;
-}
-
-.fichas {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 1fr;
-  gap: 1rem;
-}
-
-.tarjeta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.8rem;
-  border-radius: 20px;
-  background: #a20e0e;
-}
-
-.ficha {
-  width: 70%;
-  max-height: 60%;
-  object-fit: contain;
-}
-
-.tarjeta p {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.tarjeta button {
-  width: 100%;
-  padding: 0.2rem 0;
+/* Campo que aparece al editar un dato */
+.edit-input {
+  width: min(100%, 320px);
+  height: 44px;
+  padding: 0 1rem;
   border: 0;
   border-radius: 999px;
   background: white;
-  color: white;
+  color: #000;
   font: inherit;
-  font-size: 2rem;
-  font-weight: 700;
-  cursor: pointer;
+  font-size: 20px;
 }
 
-.tarjeta button:hover:not(:disabled) { background: #ffd2d2; }
-
-/* CORREGIDO IA: tokens.js desactiva los botones mientras responde la API; ahora se nota */
-.tarjeta button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.edit-input:focus-visible {
+  outline: 3px solid var(--rosa);
+  outline-offset: 2px;
 }
 
-/* ---------- Teléfono ---------- */
-@media (max-width: 768px) {
-  .contenido {
-    grid-template-columns: 1fr;
-    height: auto;
-  }
-
-  .historial { max-height: 220px; }
-
-  .fichas { grid-template-columns: repeat(2, 1fr); }
-
-  .tarjeta { min-height: 200px; }
-
-  .monto-caja { min-width: 0; font-size: 1.3rem; }
-}
 
 /*---------------------- UTILIDADES -------------------------*/
 

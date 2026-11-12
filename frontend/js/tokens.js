@@ -1,65 +1,80 @@
+// Requiere que api.js se cargue ANTES que este archivo (ver tokens.html).
+// Saldo e historial vienen de la API (depositarFichas, retirarFichas,
+// obtenerUsuarioActual, obtenerMovimientos), igual que en main.js.
+
 // 1. Proteger la página: sin sesión, de vuelta al login
-const sesion = JSON.parse(localStorage.getItem("sesion"));
- 
-if (!sesion) {
+if (!haySesion()) {
   window.location.replace("index.html");
 } else {
   iniciar();
 }
- 
+
 function iniciar() {
-  // Cambia sessionStorage por localStorage si quieres que el dinero
-  // sobreviva aunque se cierre la pestaña
-  const almacen = sessionStorage;
- 
-  // Cada usuario tiene su propio saldo e historial
-  const claveSaldo = "saldo_" + sesion.usuario;
-  const claveHistorial = "historial_" + sesion.usuario;
- 
   const textoMonto = document.getElementById("monto");
   const lista = document.getElementById("lista-historial");
- 
-  let saldo = Number(almacen.getItem(claveSaldo)) || 0;
-  let historial = JSON.parse(almacen.getItem(claveHistorial)) || [];
- 
-  function guardar() {
-    almacen.setItem(claveSaldo, saldo);
-    almacen.setItem(claveHistorial, JSON.stringify(historial));
+  const botones = document.querySelectorAll("[data-monto]");
+
+  function bloquear(estado) {
+    botones.forEach(function (boton) {
+      boton.disabled = estado;
+    });
   }
- 
-  function dibujar() {
-    textoMonto.textContent = saldo.toLocaleString("es-CL");
- 
+
+  async function dibujar() {
+    const [rUsuario, rMovimientos] = await Promise.all([
+      obtenerUsuarioActual(),
+      obtenerMovimientos({ tipo: "todos", orden: "desc" })
+    ]);
+
+    if (rUsuario.status === 401 || rMovimientos.status === 401) {
+      window.location.replace("index.html");
+      return;
+    }
+    if (!rUsuario.ok || !rMovimientos.ok) {
+      alert(rUsuario.error || rMovimientos.error);
+      return;
+    }
+
+    textoMonto.textContent = rUsuario.data.saldo.toLocaleString("es-CL");
+
     lista.textContent = ""; // vacía la lista antes de volver a llenarla
- 
-    historial.forEach(function (cantidad) {
+
+    rMovimientos.data.forEach(function (movimiento) {
       const item = document.createElement("li");
- 
+
       const icono = document.createElement("img");
       icono.className = "icono-dolar";
       icono.src = "images/money-icon.png";
       icono.alt = "";
- 
+
+      // depósito suma (+); entrada a un juego y retiro restan (-)
+      const signo = movimiento.tipo === "deposito" ? "+" : "-";
       const texto = document.createElement("span");
-      texto.textContent = (cantidad > 0 ? "+" : "") + cantidad;
- 
+      texto.textContent = signo + movimiento.monto;
+
       item.append(icono, texto);
       lista.append(item);
     });
   }
- 
-  function agregar(cantidad) {
-    saldo += cantidad;
-    historial.unshift(cantidad); // unshift: la acción más reciente queda arriba
-    guardar();
-    dibujar();
+
+  async function agregar(cantidad) {
+    bloquear(true); // evita doble clic mientras responde la API
+
+    const respuesta = cantidad > 0
+      ? await depositarFichas(cantidad)
+      : await retirarFichas(-cantidad);
+
+    if (!respuesta.ok) alert(respuesta.error);
+
+    await dibujar();
+    bloquear(false);
   }
- 
-  document.querySelectorAll("[data-monto]").forEach(function (boton) {
+
+  botones.forEach(function (boton) {
     boton.addEventListener("click", function () {
       agregar(Number(boton.dataset.monto));
     });
   });
- 
+
   dibujar();
 }

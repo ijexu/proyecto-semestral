@@ -58,7 +58,7 @@
     "activo": false},
     {
     "id": 7,
-    "nombre": "Deep Blackjack ",
+    "nombre": "Deep Blackjack",
      "tipo": "cartas",
     "icono": "🃏",
      "descripcion": "Acércate a 21 sin pasarte y gana a la banca.",

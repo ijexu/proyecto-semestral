@@ -8,12 +8,10 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: sans-serif;
-  color: var(--ro);
-  background-color: var(--ro); /* respaldo si la imagen no carga */
- background-image: url("../images/backgroundcasinoff.png");
-  background-size: cover;
-  background-attachment: fixed;
+  min-height: 100vh;
+  font-family: "Open Sans", sans-serif;
+  color: var(--blanco);
+  background-color: var(--fondo);
 }
 
 /* ---------- Barra superior ---------- */
@@ -83,7 +81,7 @@ body {
 
 #lista-historial {
   flex: 1;
-  overflow-y: auto;      /* scroll cuando haya muchas acciones */
+  overflow-y: auto;
   list-style: none;
   font-size: 1.6rem;
   font-weight: 700;

@@ -2,7 +2,7 @@
     {
         "id":1,
         "nombre" :"Usuario",
-        "Apellido" :"Generico",
+        "apellido" :"Generico",
         "usuario" :"usuario",
         "correo":"usuario@ejemplo.com",
         "nacimiento" :"2001-03-20",

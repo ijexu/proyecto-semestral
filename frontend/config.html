@@ -12,7 +12,11 @@
         <nav class="buttons-menu"> 
             <button type="button" class="user" data-seccion="user-section"> USUARIO </button>
             <button type="button" class="general" data-seccion="general-section"> GENERAL</button>
-            <a class="logout" href="main.html"> VOLVER ATRAS </a>
+            <div class="menu-bottom">
+                <button type="button" id="cerrar-sesion">CERRAR SESIÓN</button>
+                <button type="button" id="eliminar-cuenta" class="btn-peligro">ELIMINAR CUENTA</button>
+                <a class="volver-atras" href="main.html"> VOLVER ATRAS </a>
+            </div>
         </nav>
 
         <main class="menu-section"> 
@@ -21,30 +25,30 @@
                 <!------------------------------------- CAJA ARRIBA ------------------------------------->
                 <div class="config-box-up">
                     <!----------------- CAJA ▟ ----------------->
-                    <div class="data-fila"> 
+                    <div> 
                     <div class="data">
                             <h4> Usuario </h4>
                             <div class="data-info">
                                 <h3> <span id="user"></span> </h3>
-                                <button type="button" class="edit-button"> ✎ </button>
+                                <button type="button" class="edit-button" data-campo="usuario" aria-label="Editar usuario" title="Editar usuario">✎</button>
                             </div>
                         </div>
                 </div>
                     <!----------------- CAJA ▙ ----------------->
                     <div class="config-box-up-right">
-                        <img  class="profile-icon"  src="images/profile-icon.png">
+                        <img class="profile-icon" src="images/profile-icon.png" alt="Foto de perfil">
                     </div>
                 </div>
                 <!------------------------------------- CAJA ABAJO  ------------------------------------->
                 <div class="config-box-down">
                     <h2 class="data-title"> DATOS </h2>
                 <!-- NOMBRE -->
-                    <div class="data-fila">
+                    <div class="data-row">
                         <div class="data">
                             <h4> Nombre </h4>
                             <div class="data-info">
                                 <h3> <span id="name"></span> </h3>
-                                <button type="button" class="edit-button"> ✎ </button>
+                                <button type="button" class="edit-button" data-campo="nombre" aria-label="Editar nombre" title="Editar nombre">✎</button>
                             </div>
                         </div>
 
@@ -52,33 +56,33 @@
                         <h4>Apellido</h4>
                         <div class="data-info">
                             <h3> <span id="lastname"></span></h3>
-                            <button type="button" class="edit-button"> ✎ </button>
+                            <button type="button" class="edit-button" data-campo="apellido" aria-label="Editar apellido" title="Editar apellido">✎</button>
                         </div>
                     </div>
                 </div>
                 <!-- CORREO -->
-                <div class="data-fila"> 
+                <div class="data-row"> 
                     <div class="data">
                             <h4> Correo </h4>
                             <div class="data-info">
                                 <h3> <span id="mail"></span> </h3>
-                                <button type="button" class="edit-button"> ✎ </button>
+                                <button type="button" class="edit-button" data-campo="correo" aria-label="Editar correo" title="Editar correo">✎</button>
                             </div>
                         </div>
                 </div>
                 <!-- CONTRASEÑA -->
-                <div class="data-fila"> 
+                <div class="data-row"> 
                     <div class="data">
                             <h4> Contraseña </h4>
                             <div class="data-info">
                                 <h3> <span id="password"></span> </h3>
-                                <button type="button" class="edit-button"> ✎ </button>
-                                <button type="button" class="viewpassword-button"> 👁 </button>
+                                <button type="button" class="edit-button" data-campo="contrasena" aria-label="Editar contraseña" title="Editar contraseña">✎</button>
+                                <button type="button" class="viewpassword-button" aria-label="Mostrar contraseña" title="Mostrar u ocultar contraseña">👁</button>
                             </div>
                         </div>
                 </div>
                 <!-- NACIMIENTO -->
-                 <div class="data-fila"> 
+                 <div class="data-row"> 
                     <div class="data">
                             <h4> Fecha de nacimiento </h4>
                             <div class="data-info">
