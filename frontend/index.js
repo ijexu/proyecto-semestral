@@ -17,6 +17,8 @@ const boton = document.getElementById("index-form-button");
       return usuarioGuardado.usuario === usuario && usuarioGuardado.contrasena === contrasena;
    });
 
+
+
    if(encontrado) {
       localStorage.setItem("sesion", JSON.stringify({
          usuario: encontrado.usuario,
@@ -26,5 +28,8 @@ const boton = document.getElementById("index-form-button");
    } else {
       alert("Usuario o contraseña incorrectos");
    }
+
+
+   
 });
 
