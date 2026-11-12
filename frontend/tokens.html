@@ -1,10 +1,64 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar dinero</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+ 
+  <header class="barra">
+    <a href="main.html" class="volver" aria-label="Volver">↩</a>
+    <div class="monto-caja">
+      <img class="icono-dolar" src="images/money-icon.png" alt="">
+      <span id="monto">0</span>
+    </div>
+  </header>
+ 
+  <main class="contenido">
+ 
+    <aside class="historial">
+      <h1>HISTORIAL</h1>
+      <ul id="lista-historial"></ul>
+    </aside>
+ 
+    <section class="fichas" aria-label="Agregar dinero">
+      <div class="tarjeta">
+        <img class="ficha" src="images/token-icon.png" alt="">
+        <p>10</p>
+        <button type="button" data-monto="10" aria-label="Agregar 10">+</button>
+      </div>
+      <div class="tarjeta">
+        <img class="ficha" src="images/token-icon.png" alt="">
+        <p>50</p>
+        <button type="button" data-monto="50" aria-label="Agregar 50">+</button>
+      </div>
+      <div class="tarjeta">
+        <img class="ficha" src="images/token-icon.png" alt="">
+        <p>100</p>
+        <button type="button" data-monto="100" aria-label="Agregar 100">+</button>
+      </div>
+      <div class="tarjeta">
+        <img class="ficha" src="images/token-icon.png" alt="">
+        <p>250</p>
+        <button type="button" data-monto="250" aria-label="Agregar 250">+</button>
+      </div>
+      <div class="tarjeta">
+        <img class="ficha" src="images/token-icon.png" alt="">
+        <p>1000</p>
+        <button type="button" data-monto="1000" aria-label="Agregar 1000">+</button>
+      </div>
+      <div class="tarjeta">
+        <img class="ficha" src="images/token-icon.png" alt="">
+        <p>2000</p>
+        <button type="button" data-monto="2000" aria-label="Agregar 2000">+</button>
+      </div>
+    </section>
+ 
+  </main>
+ 
+  <script src="tokens.js"></script>
 </body>
 </html>
+ 
