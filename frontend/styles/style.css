@@ -1,0 +1,333 @@
+/* CORREGIDO IA: Open Sans no se cargaba; el @import debe ir primero en el archivo */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+
+/*------------------------ BASE -----------------------------*/
+/*-----------------------------------------------------------*/
+
+:root {
+  --BP: #FFDEDE;   /* BACKGROUND PANEL COLOR */
+  --rojo: #820000; /* CORREGIDO IA: variable nueva para el rojo principal */
+  --rosa: #FF8B8B; /* CORREGIDO IA: variable nueva para hover y enlaces */
+}
+
+/* CORREGIDO IA: el reset estaba repetido 3 veces (inicio, configuración y tokens); ahora hay uno solo */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  color: var(--rojo);
+  background-image: url(images/backgroundcasinoff.png);
+  /* CORREGIDO IA: sin esto la imagen se repetía en mosaico */
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* CORREGIDO IA: antes la sección tokens redefinía "body" y le cambiaba el color, la fuente
+   y el fondo a TODAS las páginas. Ahora solo aplica con <body class="pagina-tokens"> */
+body.pagina-tokens {
+  min-height: 100vh;
+  font-family: "Open Sans", sans-serif;
+  color: white;
+  background-image: url(images/backgroundcasinoff2.png);
+}
+
+/*-------------------- CONFIGURATION -------------------------*/
+/*-----------------------------------------------------------*/
+
+/* CORREGIDO IA: se quitaron border-right y border-radius sin unidad (no hacían nada) */
+.configuration-menu {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* CORREGIDO IA: border-color sin border no se veía; ahora hay un borde real */
+.buttons-menu {
+  border-radius: 15px;
+  border-right: 2px solid var(--BP);
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 200px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background-color: var(--rojo);
+}
+
+/* CORREGIDO IA: .menu-section estaba definido 3 veces y quedó background-color: aqua de una prueba */
+.menu-section {
+  flex: 1;
+  background-image: url(images/backgroundcasinoff.png);
+  background-size: cover;
+  background-position: center;
+}
+
+.buttons-menu button {
+  border-radius: 0;
+  border: 0;
+  width: 200px;
+  height: 50px;
+  min-height: 30px;
+  background-color: var(--rojo);
+  color: azure;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.buttons-menu button:hover { background-color: var(--rosa); }
+
+.logout {
+  margin-top: auto;
+  color: aliceblue;
+  font-weight: bold;
+  padding: 1rem;
+  text-align: center;
+}
+
+/*-------------------- SECCION USUARIO -------------------------*/
+/* Recuerda borrar <section class="section"></section> del HTML (la regla .section ya no existe) */
+
+.user-section,
+.general-section {
+  background-color: #1f1f1f7a;
+  border-radius: 50px;
+  padding: 2rem 3rem;
+  /* CORREGIDO IA: antes calc(100vh - 2rem) + margin de 2rem arriba y abajo = scroll de más */
+  min-height: calc(100vh - 4rem);
+  margin: 2rem;
+}
+
+/*CAJA ARRIBA*/
+
+.config-box-up {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #ffffff40;
+}
+
+.profile-icon {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/*CAJA ABAJO*/
+
+.data-title {
+  color: white;
+  font-family: sans-serif;
+  margin: 1rem 0 0;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid #ffffff40;
+}
+
+.data-row {
+  display: flex;
+  gap: 5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ffffff40;
+}
+
+.config-box-down h4,
+.config-box-up h4 {
+  color: rgb(161, 161, 161);
+  font-family: sans-serif;
+  margin: 0 0 .25rem;
+}
+
+.data-info {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.data-info h3 {
+  color: white;
+  font-size: 30px;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+/* CORREGIDO IA: .edit-button y .viewpassword-button eran idénticos; se unieron */
+.edit-button,
+.viewpassword-button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background-color: var(--rojo);
+  color: white;
+  cursor: pointer;
+}
+
+.edit-button:hover,
+.viewpassword-button:hover { background-color: var(--rosa); }
+
+/*---------------------- TOKENS ----------------------------*/
+/*-----------------------------------------------------------*/
+
+/* ---------- Barra superior ---------- */
+.barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: #a30d0d;
+}
+
+.volver {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: white;
+  color: var(--rojo);
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.monto-caja {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 16rem;
+  padding: 0.3rem 1.5rem 0.3rem 0.5rem;
+  border-radius: 999px;
+  background: var(--rojo);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.icono-dolar {
+  width: 2.4rem;
+  height: 2.4rem;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* ---------- Contenido ---------- */
+.contenido {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  height: calc(100vh - 4.2rem);
+}
+
+.historial {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.historial h1 {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+#lista-historial {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+#lista-historial li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+#lista-historial .icono-dolar {
+  width: 2rem;
+  height: 2rem;
+}
+
+.fichas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1rem;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem;
+  border-radius: 20px;
+  background: #a20e0e;
+}
+
+.ficha {
+  width: 70%;
+  max-height: 60%;
+  object-fit: contain;
+}
+
+.tarjeta p {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.tarjeta button {
+  width: 100%;
+  padding: 0.2rem 0;
+  border: 0;
+  border-radius: 999px;
+  background: white;
+  color: white;
+  font: inherit;
+  font-size: 2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tarjeta button:hover:not(:disabled) { background: #ffd2d2; }
+
+/* CORREGIDO IA: tokens.js desactiva los botones mientras responde la API; ahora se nota */
+.tarjeta button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Teléfono ---------- */
+@media (max-width: 768px) {
+  .contenido {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .historial { max-height: 220px; }
+
+  .fichas { grid-template-columns: repeat(2, 1fr); }
+
+  .tarjeta { min-height: 200px; }
+
+  .monto-caja { min-width: 0; font-size: 1.3rem; }
+}
+
+/*---------------------- UTILIDADES -------------------------*/
+
+/* Va al final a propósito: con igual especificidad, la regla que viene después gana,
+   así que .oculto siempre vence a cualquier display definido arriba */
+.oculto {
+  display: none;
+}

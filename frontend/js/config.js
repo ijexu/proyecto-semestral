@@ -10,7 +10,6 @@ botones.forEach(function (boton) {
         document.getElementById(id).classList.remove("oculto");
     });
 });
-
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
 
@@ -29,7 +28,5 @@ async function cargarDatosPerfil() {
     document.getElementById("birthdate").textContent = datos.nacimiento;
     document.getElementById("password").textContent = "*********"
 }}
-
-
 
 cargarDatosPerfil();
