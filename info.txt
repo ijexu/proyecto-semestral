@@ -30,3 +30,13 @@ LocalStorage || 3 comandos:
 - localStorage.removeItem("clave","texto"); -> borra
 
 GUARDA TEXTO, PARA LISTAS SE CONVIERTE EN JSON
+
+ELIMINAR USUARIO Y CERRAR SESIÓN FUNCIONALES (FALTA)
+
+try{
+    await registrarUsuarios(nuevo);
+    window.location.href = "index.html";
+}catch (error) {
+    alert(error.message);
+}
+}); REGISTER

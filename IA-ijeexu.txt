@@ -1,0 +1,305 @@
+Enseñame como usar mocks con api, para registrar a un usuario y el login, adicionalmente enseñame como "imprimir" la información de un usuario para mostrarla en una pagina.
+
+Lo armamos como un recorrido completo: primero entiendes el flujo, luego escribes cada archivo en orden y al final lo pruebas.
+
+El flujo
+register.html → register.js ─┐
+index.html    → login.js    ─┼──► api.js (la API falsa) ──► localStorage
+config.html   → config.js   ─┘
+
+Las páginas nunca tocan localStorage. Solo le piden cosas a api.js, igual que pedirían cosas a un servidor. Eso es lo que hace que sea una API simulada.
+
+Archivos del proyecto
+usuarios.json   (datos iniciales)
+api.js          (la API falsa)
+register.js
+login.js
+config.js
+1. usuarios.json: los datos de partida
+json
+[
+  {
+    "nombre": "Ana",
+    "apellido": "Pérez",
+    "usuario": "ana",
+    "correo": "ana@mail.com",
+    "nacimiento": "1999-05-20",
+    "contrasena": "1234",
+    "rol": "usuario"
+  }
+]
+
+Te sirve para tener un usuario con el que probar el login sin registrarte primero.
+
+2. api.js: la API falsa
+javascript
+const CLAVE_USUARIOS = "usuarios";
+const CLAVE_SESION = "sesion";
+
+// Simula la demora de internet
+function esperar(ms) {
+   return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+   });
+}
+
+// Si localStorage está vacío, lo llena con usuarios.json (solo la primera vez)
+async function iniciarDatos() {
+   if (localStorage.getItem(CLAVE_USUARIOS)) return;
+
+   const respuesta = await fetch("usuarios.json");
+   const iniciales = await respuesta.json();
+   localStorage.setItem(CLAVE_USUARIOS, JSON.stringify(iniciales));
+}
+
+// "GET /usuarios"
+async function obtenerUsuarios() {
+   await iniciarDatos();
+   await esperar(300);
+   return JSON.parse(localStorage.getItem(CLAVE_USUARIOS)) || [];
+}
+
+// "POST /usuarios" (registro)
+async function registrarUsuario(nuevo) {
+   const usuarios = await obtenerUsuarios();
+
+   const existe = usuarios.some(function (u) {
+      return u.usuario === nuevo.usuario;
+   });
+   if (existe) {
+      throw new Error("Ese nombre de usuario ya está en uso");
+   }
+
+   usuarios.push(nuevo);
+   localStorage.setItem(CLAVE_USUARIOS, JSON.stringify(usuarios));
+   return nuevo;
+}
+
+// "POST /login"
+async function iniciarSesion(usuario, contrasena) {
+   const usuarios = await obtenerUsuarios();
+
+   const encontrado = usuarios.find(function (u) {
+      return u.usuario === usuario && u.contrasena === contrasena;
+   });
+   if (!encontrado) {
+      throw new Error("Usuario o contraseña incorrectos");
+   }
+
+   localStorage.setItem(CLAVE_SESION, JSON.stringify({
+      usuario: encontrado.usuario,
+      rol: encontrado.rol
+   }));
+   return encontrado;
+}
+
+// "GET /perfil": datos completos de quien tiene sesión (o null)
+async function obtenerUsuarioActual() {
+   const sesion = JSON.parse(localStorage.getItem(CLAVE_SESION));
+   if (!sesion) return null;
+
+   const usuarios = await obtenerUsuarios();
+   return usuarios.find(function (u) {
+      return u.usuario === sesion.usuario;
+   }) || null;
+}
+
+// Cerrar sesión
+function cerrarSesion() {
+   localStorage.removeItem(CLAVE_SESION);
+}
+
+Fíjate en el patrón de cada función: recibe datos → valida → devuelve el resultado o lanza un error con throw. Así responde una API real.
+
+3. Registro: register.js
+
+Cambia solo el submit (tu validación de edad queda igual arriba):
+
+javascript
+const formulario = document.getElementById("register-form");
+
+formulario.addEventListener("submit", async function (evento) {
+   evento.preventDefault();
+
+   const nuevo = {
+      nombre: formulario.elements["name"].value.trim(),
+      apellido: formulario.elements["lastname"].value.trim(),
+      usuario: document.getElementById("username").value.trim(),
+      correo: document.getElementById("mail").value.trim(),
+      nacimiento: document.getElementById("birthdate").value,
+      contrasena: document.getElementById("password").value,
+      rol: "usuario"
+   };
+
+   try {
+      await registrarUsuario(nuevo);
+      window.location.href = "index.html";
+   } catch (error) {
+      alert(error.message);
+   }
+});
+4. Login: login.js
+javascript
+const formulario = document.getElementById("index-form");
+const boton = document.getElementById("index-form-button");
+
+formulario.addEventListener("input", function () {
+   boton.disabled = !formulario.checkValidity();
+});
+
+formulario.addEventListener("submit", async function (evento) {
+   evento.preventDefault();
+
+   const usuario = document.getElementById("usuario").value.trim();
+   const contrasena = document.getElementById("contrasena").value;
+
+   try {
+      await iniciarSesion(usuario, contrasena);
+      window.location.href = "main.html";
+   } catch (error) {
+      alert(error.message);
+   }
+});
+5. Imprimir los datos: config.js
+javascript
+async function cargarPerfil() {
+   const datos = await obtenerUsuarioActual();
+
+   // Sin sesión (o usuario inexistente): de vuelta al login
+   if (!datos) {
+      window.location.href = "index.html";
+      return;
+   }
+
+   mostrar("username", datos.usuario);
+   mostrar("name", datos.nombre);
+   mostrar("lastname", datos.apellido);
+   mostrar("mail", datos.correo);
+   mostrar("birthdate", datos.nacimiento);
+   mostrar("password", "********");
+}
+
+// Pone un texto en el elemento con ese id; avisa si el id no existe
+function mostrar(id, valor) {
+   const elemento = document.getElementById(id);
+   if (elemento) {
+      elemento.textContent = valor;
+   } else {
+      console.warn("No existe el id: " + id);
+   }
+}
+
+cargarPerfil();
+
+// Cerrar sesión (el enlace necesita id="logout")
+document.getElementById("logout").addEventListener("click", cerrarSesion);
+
+Para imprimir un dato en pantalla siempre se repite el mismo patrón de tres pasos: pedir el usuario a la API (obtenerUsuarioActual), buscar el elemento por su id y escribir con .textContent.
+
+6. Orden de los scripts en cada HTML
+
+api.js va antes, porque los otros archivos usan sus funciones:
+
+html
+<script src="api.js"></script>
+<script src="register.js"></script>   <!-- o login.js, o config.js -->
+Cómo probarlo
+Abre el proyecto con Live Server (fetch("usuarios.json") no funciona con file:///).
+Entra a index.html e inicia sesión con ana / 1234.
+Verifica en config.html que se muestran sus datos.
+Ve a register.html, crea otro usuario y vuelve a iniciar sesión con él.
+Si algo falla, F12 → Consola muestra el error, y F12 → Application → Local Storage muestra qué hay guardado.
+Variante: un servidor mock de verdad (opcional)
+
+Lo anterior simula la API con funciones. Si quieres practicar fetch real con GET y POST, puedes usar json-server, que convierte un archivo db.json en una API local (necesitas Node instalado; el comando de arranque cambia según la versión, así que revisa su README). Con él, solo cambias el interior de api.js:
+
+javascript
+const URL_API = "http://localhost:3000";
+
+async function obtenerUsuarios() {
+   const respuesta = await fetch(URL_API + "/usuarios");
+   return await respuesta.json();
+}
+
+async function registrarUsuario(nuevo) {
+   const existentes = await fetch(URL_API + "/usuarios?usuario=" + encodeURIComponent(nuevo.usuario));
+   if ((await existentes.json()).length > 0) {
+      throw new Error("Ese nombre de usuario ya está en uso");
+   }
+
+   const respuesta = await fetch(URL_API + "/usuarios", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nuevo)
+   });
+   return await respuesta.json();
+}
+
+register.js, login.js y config.js no cambian ni una línea, y esa es la gracia de separar la API del resto de la página.
+
+Cuando lo tengas funcionando, el siguiente paso natural es una función actualizarUsuario para los botones de editar de tu diseño. Si algo falla al probarlo, pásame lo que dice la consola.
+
+Que falla en este codigo, haz una lista con los errores:
+const CLAVE_USUARIOS = "usuarios";
+const CLAVE_SESION = "sesion";
+
+function esperar(ms) {
+    return new Promise(function (resolve){
+        setTimeout(resolve, ms);
+    });
+}
+
+async function obtenerUsuarios(){
+await esperar(300);
+return JSON.parse(localStorage.getItem(CLAVE_USUARIOS)) || [];
+}
+
+async function registrarUsuarios(nuevo) {
+    const usuarios = await obtenerUsuarios();
+
+    const existe = usuarios.some(function (user){
+        return user.usuario === nuevo.usuario;
+    });
+    if(existe){
+        throw new Error("Ese nombre de usuario ya está en uso");
+    }
+    usuarios.push(nuevo);
+    localStorage.setItem(CLAVE_USUARIOS, JSON.stringify(usuarios));
+    return nuevo;
+}
+
+async function iniciarSesion(usuario, contrasena) {
+    const usuarios = await obtenerUsuarios();
+
+    const encontrado = usuarios.find(function (user) {
+        return user.usuario === usuario && user.contrasena === contrasena;
+    });
+if(!encontrado) {
+    throw new Error("Usuario o contraseña incorrectos");
+}
+
+localStorage.setItem(CLAVE_SESION, JSON.stringify({
+    usuario: encontrado.usuario
+}));
+return encontrado;
+}
+
+async function obtenerUsuarioActual() {
+    const sesion = JSON.parse(localStorage.getItem(CLAVE_SESION));
+    if (!sesion) return null;
+
+    const usuarios = await obtenerUsuarios();
+    return usuarios.find(function (user) {
+        return user.usuario === sesion.usuario;
+    }) || null;
+}
+
+function cerrarSesion(){
+    localStorage.removeItem(CLAVE_SESION);
+}
+
+RESPUESTA:
+
+1 Donde:	registrarUsuarios	Error: nuevo.usuarioM	Corrección: nuevo.usuario
+2.Donde:    iniciarSesion	    Error:usuario.find(...)	Corrección: usuarios.find(...)
+3.Donde:    api.js              Error: registrarUsuario() Correccion: registrarUsuarios()

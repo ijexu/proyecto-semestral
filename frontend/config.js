@@ -14,23 +14,20 @@ botones.forEach(function (boton) {
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
 
-const sesion = JSON.parse(localStorage.getItem("sesion"));
+async function cargarDatosPerfil() {
+    const datos = await obtenerUsuarioActual();
 
-if(!sesion){
-    window.location.href="index.html";
-} else {
+    if(!datos) {
+        window.location.href="index.html";
+        return;
+    } else {
 
-const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-const datos = usuarios.find(function (u) {
-    return u.usuario === sesion.usuario;
-});
-
-if (datos) {
     document.getElementById("user").textContent = datos.usuario;
     document.getElementById("name").textContent = datos.nombre;
     document.getElementById("lastname").textContent = datos.apellido;
     document.getElementById("mail").textContent = datos.correo;
     document.getElementById("birthdate").textContent = datos.nacimiento;
-    document.getElementById("password").textContent = datos.contrasena;
+    document.getElementById("password").textContent = "*********"
 }}
+
+cargarDatosPerfil();

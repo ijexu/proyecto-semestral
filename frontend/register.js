@@ -27,32 +27,22 @@ input.addEventListener("input", () => {
 
 const formulario = document.getElementById("register-form");
 
- formulario.addEventListener("submit", function (evento) {
-   evento.preventDefault();
+formulario.addEventListener("submit" async function (evento) {
+evento.preventDefault();
 
-   const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-   const username = document.getElementById("username").value.trim();
-
-   const existencia = usuarios.some(function (usuarioGuardado) {
-      return usuarioGuardado.usuario === username;
-   });
-
-   if (existencia) {
-      alert("Ese nombre de usuario ya está en uso");
-      return;
-   }
-
-   usuarios.push({
-      nombre: formulario.elements["name"].value,
-      apellido: formulario.elements["lastname"].value,
-      usuario: username,
-      correo: document.getElementById("mail").value,
-      nacimiento: document.getElementById("birthdate").value,
-      contrasena: document.getElementById("password").value,
-      rol: "usuario"
-   });
-
-   localStorage.setItem("usuarios", JSON.stringify(usuarios));
-   window.location.href = "index.html";
- })
+const nuevo = {
+    nombre = document.getElementById("name").value.trim(),
+    apellido = document.getElementById("lastname").value.trim(),
+    usuario = document.getElementById("username").value.trim(),
+    correo = document.getElementById("mail").value.trim(),
+    nacimiento  = document.getElementById("birthdate").value,
+    contrasena = document.getElementById("password").value
+}});
+// IA //
+try{
+    await registrarUsuarios(nuevo);
+    window.location.href = "index.html";
+}catch (error) {
+    alert(error.message);
+}
+//
