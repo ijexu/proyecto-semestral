@@ -1,0 +1,158 @@
+- **Fecha:** 2026-11-09
+- **Integrante:** Jesús (@ijexu)
+- **Herramienta y modelo:** Claude
+- **Archivos afectados:** register.js.
+
+## Objetivo
+Busca soluciona un error proveniente de register.js y obtener retroalimentacion de la correccion
+
+## Conversación (texto completo, sin editar)
+
+### Prompt 1
+ Ayudame a corregir el siguiente codigo:
+ ### Codigo :
+ const formulario = document.getElementsById("index-form");
+ const button = document.getElementById("index-form-button");
+
+ formulario.addEventListener("input", function () {
+   boton.disabled = !formulario.checkValidity();
+ });
+
+ formulario.addEventListener("submit", function (evento) {
+   evento.preventDefault();
+
+   const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+   const usuario = document.getElementById("usuario").value.trim();
+   const contrasena = document.getElementById("contrasena").value;
+
+   const encontrado = usuarios.find(function (usuarioGuardado) {
+      return usuarioGuardado.usuario === usuario && usuarioGuardado.contrasena === contrasena:
+   });
+
+   if(encontrado) {
+      localStorage.setItem("sesion", JSON.stringify({
+         usuario: encontrado.usuario,
+         rol: encontrado.rol
+      }));
+      window.location.href = "main.html";
+   } else {
+      alert("Usuario o contraseña incorrectos");
+   }
+});
+
+### Respuesta 1
+Encontré 3 errores en tu código:
+
+getElementsById no existe. Es getElementById (sin la “s”).
+Variable boton: declaraste button pero usas boton. Deben llamarse igual.
+: al final del return: debe ser ;. Además, queda dentro de la función find, así que es un error de sintaxis que rompe todo el archivo.
+Código corregido
+javascript
+const formulario = document.getElementById("index-form");
+const boton = document.getElementById("index-form-button");
+
+formulario.addEventListener("input", function () {
+  boton.disabled = !formulario.checkValidity();
+});
+
+formulario.addEventListener("submit", function (evento) {
+  evento.preventDefault();
+
+  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  const usuario = document.getElementById("usuario").value.trim();
+  const contrasena = document.getElementById("contrasena").value;
+
+  const encontrado = usuarios.find(function (usuarioGuardado) {
+    return usuarioGuardado.usuario === usuario && usuarioGuardado.contrasena === contrasena;
+  });
+
+  if (encontrado) {
+    localStorage.setItem("sesion", JSON.stringify({
+      usuario: encontrado.usuario,
+      rol: encontrado.rol
+    }));
+    window.location.href = "main.html";
+  } else {
+    alert("Usuario o contraseña incorrectos");
+  }
+});
+Detalles a revisar en tu HTML
+Los ids deben coincidir exactamente: index-form, index-form-button, usuario y contrasena.
+El botón debe empezar deshabilitado para que la validación tenga sentido:
+html
+  <button id="index-form-button" type="submit" disabled>Entrar</button>
+Los inputs necesitan el atributo required para que checkValidity() funcione como esperas.
+Si el script está en el <head>, agrégale defer para que se ejecute cuando el HTML ya exista:
+html
+  <script src="index.js" defer></script>
+
+Si algún usuario se registró sin la propiedad rol, encontrado.rol será undefined. Asegúrate de guardarla al registrar.
+
+### Prompt 2
+ Como solucionar el error "register.js:31 Uncaught TypeError: Cannot read properties of null (reading 'trim')" y explicame porque aparece
+
+### Respuesta 2
+Por qué aparece el error
+
+El mensaje dice que en la línea 31 de register.js estás haciendo algo.trim(), pero ese algo es null. Como null no tiene métodos, JavaScript lanza el error.
+
+Casi siempre pasa por una de estas causas:
+
+Causa 1: el ID no coincide (la más común)
+
+document.getElementById() devuelve null cuando no encuentra ningún elemento con ese id.
+
+html
+<input id="nombreUsuario" placeholder="Nombre">
+javascript
+// ❌ El id es distinto: "nombre" no existe → null
+const nombre = document.getElementById("nombre").value.trim();
+
+Fíjate que el error no dice “reading ‘value’”, sino “reading ‘trim’”. Eso significa que lo que es null no es el elemento, sino el valor que ya leíste. Esto ocurre cuando usas algo como:
+
+javascript
+const nombre = localStorage.getItem("nombre");   // devuelve null si no existe
+nombre.trim();                                   // ❌ Error
+
+o con sessionStorage.getItem(...), getAttribute(...), prompt() cancelado, etc. Todos esos devuelven null cuando no hay nada.
+
+Causa 2: el script se ejecuta antes de que exista el HTML
+
+Si tu <script> está en el <head> o antes de los inputs, los elementos todavía no existen cuando el código corre.
+
+html
+<head>
+  <script src="register.js"></script>   <!-- ❌ se ejecuta antes del body -->
+</head>
+
+Solución: pon el script al final del body, o usa defer:
+
+html
+<script src="register.js" defer></script>
+Causa 3: el nombre del id tiene diferencias sutiles
+
+JavaScript distingue mayúsculas de minúsculas y espacios: "Email" ≠ "email", "password " ≠ "password".
+
+Cómo encontrar cuál es tu caso
+Abre register.js en la línea 31 y mira qué variable está antes de .trim().
+Pon un console.log justo antes:
+javascript
+   console.log(document.getElementById("nombre"));
+
+Si imprime null, el id no coincide o el script corre antes del HTML.
+3. Compara ese id letra por letra con el de tu HTML.
+
+Cómo evitar el error
+
+Si el valor puede ser null, protégelo:
+
+javascript
+// Con valor por defecto
+const nombre = (localStorage.getItem("nombre") || "").trim();
+
+// Con optional chaining
+const nombre = localStorage.getItem("nombre")?.trim();
+
+Si pegas aquí el HTML del formulario y las líneas cercanas a la 31 de register.js, te digo exactamente cuál es el problema.

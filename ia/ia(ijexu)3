@@ -1,0 +1,141 @@
+- **Fecha:** 2026-11-08
+- **Integrante:** Jesús (@ijexu)
+- **Herramienta y modelo:** Claude
+- **Archivos afectados:** frontend/main.html, frontend/main.js, frontend/index.html, frontend/index.js, frontend/config.html y frontend/config.js.
+
+## Objetivo
+Aprender a grandes rasgos como usar Localstorage para asi implementarlos en register.html (para registrar usuarios), index.html (para verificar un inicio de sesión) y config.html (para imprimir la informacion del usuario)
+
+## Conversación (texto completo, sin editar)
+
+### Prompt 1
+Enseñame a usar LocalStorage, como emplearla: Como guardar datos(en registrar usuarios por ej), verificar datos(verificar en login si los datos coinciden con los perfiles creados) y tambien imprimir informacion de los datos (Como una pagina de bienvenida que te diga el nombre del usuario) 
+
+### Respuesta 1
+LocalStorage paso a paso
+1. Lo básico
+
+LocalStorage guarda datos en el navegador como pares clave → valor, y solo acepta texto. Para guardar objetos o listas tienes que convertirlos con JSON.stringify y recuperarlos con JSON.parse.
+
+javascript
+localStorage.setItem("nombre", "Ana");        // guardar
+localStorage.getItem("nombre");               // leer → "Ana"
+localStorage.removeItem("nombre");            // borrar una clave
+localStorage.clear();                         // borrar todo
+
+// Objetos y listas
+const usuario = { nombre: "Ana", email: "ana@mail.com" };
+localStorage.setItem("usuario", JSON.stringify(usuario));
+const recuperado = JSON.parse(localStorage.getItem("usuario"));
+2. Registro de usuarios
+
+Guardamos una lista de usuarios bajo la clave "usuarios". Cada registro lee la lista, agrega el nuevo usuario y la vuelve a guardar.
+
+registro.html
+
+html
+<h2>Registro</h2>
+<input id="nombre" placeholder="Nombre">
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Contraseña">
+<button onclick="registrar()">Registrarse</button>
+<p id="mensaje"></p>
+
+<script>
+function registrar() {
+  const nombre = document.getElementById("nombre").value.trim();
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
+  const mensaje = document.getElementById("mensaje");
+
+  if (!nombre || !email || !password) {
+    mensaje.textContent = "Completa todos los campos.";
+    return;
+  }
+
+  // Leer la lista existente (o una lista vacía si no hay nada)
+  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  // Verificar que el email no esté repetido
+  if (usuarios.some(u => u.email === email)) {
+    mensaje.textContent = "Ese email ya está registrado.";
+    return;
+  }
+
+  usuarios.push({ nombre, email, password });
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+  mensaje.textContent = "¡Registro exitoso! Ya puedes iniciar sesión.";
+}
+</script>
+3. Login (verificar datos)
+
+Buscamos en la lista un usuario cuyo email y contraseña coincidan. Si existe, guardamos quién está logueado en una clave aparte.
+
+login.html
+
+html
+<h2>Iniciar sesión</h2>
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Contraseña">
+<button onclick="login()">Entrar</button>
+<p id="mensaje"></p>
+
+<script>
+function login() {
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
+
+  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  // find devuelve el primer usuario que cumpla, o undefined
+  const encontrado = usuarios.find(
+    u => u.email === email && u.password === password
+  );
+
+  if (encontrado) {
+    // Guardamos quién inició sesión
+    localStorage.setItem("sesion", JSON.stringify(encontrado));
+    window.location.href = "bienvenida.html";
+  } else {
+    document.getElementById("mensaje").textContent =
+      "Email o contraseña incorrectos.";
+  }
+}
+</script>
+4. Página de bienvenida (mostrar datos)
+
+Leemos la clave "sesion" y mostramos el nombre. Si no hay sesión, redirigimos al login para que nadie entre sin iniciar sesión.
+
+bienvenida.html
+
+html
+<h1 id="saludo"></h1>
+<p id="info"></p>
+<button onclick="cerrarSesion()">Cerrar sesión</button>
+
+<script>
+const sesion = JSON.parse(localStorage.getItem("sesion"));
+
+if (!sesion) {
+  // Nadie inició sesión: mandar al login
+  window.location.href = "login.html";
+} else {
+  document.getElementById("saludo").textContent = `¡Bienvenido, ${sesion.nombre}!`;
+  document.getElementById("info").textContent = `Tu email es ${sesion.email}`;
+}
+
+function cerrarSesion() {
+  localStorage.removeItem("sesion");
+  window.location.href = "login.html";
+}
+</script>
+
+Usa textContent en vez de innerHTML para mostrar datos del usuario. Así evitas que alguien registre un nombre con código HTML o JavaScript y lo ejecute en la página.
+
+5. Cosas importantes que debes saber
+LocalStorage no es seguro. Cualquiera puede ver los datos abriendo las herramientas del navegador (F12 → Application → Local Storage). Guardar contraseñas así sirve solo para aprender o practicar. En una aplicación real, el registro y el login se hacen en un servidor con una base de datos, y las contraseñas se guardan encriptadas (hash).
+Los datos son locales. Cada navegador y cada computador tiene su propio LocalStorage, así que un usuario registrado en Chrome no existe en Firefox.
+Persiste hasta que se borre. Sobrevive al cerrar el navegador. Si quieres que la sesión termine al cerrar la pestaña, usa sessionStorage en lugar de localStorage para la clave "sesion" (tiene los mismos métodos).
+Límite de tamaño: unos 5 MB por sitio.
+Para ver o depurar lo guardado: F12 → pestaña Application (o Almacenamiento en Firefox) → Local Storage.
