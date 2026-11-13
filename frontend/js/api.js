@@ -1,4 +1,3 @@
-
 //
 // [IA] inicio · ia/AAAA-MM-DD_usuario-github_capa-api.md
 // Constantes: se reemplazan las dos originales (CLAVE_USUARIOS y CLAVE_SESION)
@@ -548,8 +547,10 @@ function retirarFichas(monto) {
 }
 // IA fin
  
-// Crear (entrada): descuenta el precio de entrada del juego (apuestaMinima).
-function entrarAJuego(juegoId) {
+// Crear (entrada): descuenta la apuesta del saldo y la registra como movimiento.
+// "monto" es opcional: si no se envía, se apuesta la apuestaMinima del juego.
+// Debe estar entre apuestaMinima y apuestaMaxima.
+function entrarAJuego(juegoId, monto) {
     return solicitud(async function () {
         const usuario = await usuarioEnSesion();
         if (!usuario) return respuestaError(401, "Debes iniciar sesión.");
@@ -563,9 +564,13 @@ function entrarAJuego(juegoId) {
             return respuestaError(403, "Este juego no está disponible por ahora.");
         }
  
-        const precio = juego.apuestaMinima;
+        const precio = monto === undefined ? juego.apuestaMinima : Number(monto);
+        if (!Number.isInteger(precio) || precio < juego.apuestaMinima || precio > juego.apuestaMaxima) {
+            return respuestaError(400, "La apuesta debe ser un número entero entre " +
+                juego.apuestaMinima + " y " + juego.apuestaMaxima + " fichas.");
+        }
         if (usuario.saldo < precio) {
-            return respuestaError(402, "Saldo insuficiente. La entrada cuesta " + precio + " fichas.");
+            return respuestaError(402, "Saldo insuficiente. La apuesta es de " + precio + " fichas.");
         }
  
         const movimientos = await leerRecurso(CLAVE_MOVIMIENTOS, "movimientos");
@@ -575,7 +580,7 @@ function entrarAJuego(juegoId) {
             tipo: "entrada",
             monto: precio,
             juegoId: juego.id,
-            nota: "Entrada al juego",
+            nota: "Apuesta en " + juego.nombre,
             fecha: new Date().toISOString().slice(0, 19)
         };
         movimientos.push(nuevo);
